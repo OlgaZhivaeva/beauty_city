@@ -4,17 +4,25 @@ from django.shortcuts import render
 def index(request):
     return render(request, 'index.html')
 
-# def notes():
+
+def notes(request):
+    content = {}
+    return render(request, 'notes.html', content)
 
 
 def service(request):
     content = {}
     return render(request, 'service.html', content)
 
-# def popup():
-    
-    
-# def serviceFinally():
+
+def popup(request):
+    content = {}
+    return render(request, 'popup.html', content)
+
+
+def serviceFinally(request):
+    content = {}
+    return render(request, 'serviceFinally.html', content)
 
 
 def manager(request):
