@@ -1,7 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
-
 
 def index(request):
     return render(request, 'index.html')
@@ -9,10 +7,16 @@ def index(request):
 # def notes():
 
 
-# def service():
-
+def service(request):
+    content = {}
+    return render(request, 'service.html', content)
 
 # def popup():
     
     
 # def serviceFinally():
+
+
+def manager(request):
+    content = {}
+    return render(request, 'admin.html', content)
