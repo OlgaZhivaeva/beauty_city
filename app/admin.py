@@ -1,40 +1,66 @@
 from django.contrib import admin
 
-from .models import Client, Salon, Service, Registration, Master, ServiceType
+from .models import (
+    Client,
+    Feedback,
+    Invoice,
+    Master,
+    MasterDaySchedule,
+    Order,
+    Salon,
+    Service,
+)
 
 
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
-    # list_display = ('username', 'phone_number')
-    # search_fields = ('username', 'phone_number')
-    # list_filter = ('username','phone_number')
-    list_display = ('username',)
-    search_fields = ('username',)
-    list_filter = ('username',)
+    list_display = ("full_name", "phone_number")
+    search_fields = ("full_name", "phone_number")
+    list_filter = ("full_name",)
 
-@admin.register(Master)
-class MasterAdmin(admin.ModelAdmin):
-    search_fields = ('name', )
-    list_display = ["name", "get_services", "get_salons"]
+
+@admin.register(Salon)
+class SalonAdmin(admin.ModelAdmin):
+    list_display = ("title", "address")
 
 
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    search_fields = ('title', 'type')
-    list_display = ['title', 'price', 'type']
+    list_display = ("title", "price", "duration")
 
 
-@admin.register(Registration)
-class RegistrationAdmin(admin.ModelAdmin):
-    list_display = ('client', 'master', 'salon', 'service', 'time_registration', 'reminder_sent', 'service_date',
-                    'slot')
-    list_filter = ('salon', 'master', 'client', 'service', 'reminder_sent')
-    search_fields = ('salon__name', 'master__name', 'client__name', 'service__name')
-    readonly_fields = ('time_registration',)
-
-@admin.register(ServiceType)
-class ServiceTypeAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+@admin.register(Master)
+class MasterAdmin(admin.ModelAdmin):
+    list_display = ("full_name", "specialty")
 
 
-admin.site.register(Salon)
+class ServiceInline(admin.TabularInline):
+    model = MasterDaySchedule.services.through
+    extra = 0
+
+
+@admin.register(MasterDaySchedule)
+class MasterDayScheduleAdmin(admin.ModelAdmin):
+    list_filter = ("workday", "salon", "master")
+    search_fields = ("workday", "salon", "master")
+    exclude = ("services",)
+    inlines = [ServiceInline]
+
+
+@admin.register(Invoice)
+class InvoiceAdmin(admin.ModelAdmin):
+    list_display = ("updated_at", "client", "status")
+    list_filter = ("status",)
+    readonly_fields = ("created_at", "updated_at")
+
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ("date", "status", "client", "salon", "master", "service")
+    list_filter = ("date", "status", "client", "salon", "master", "service")
+
+
+@admin.register(Feedback)
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ("date", "client")
+    list_filter = ("date", "client")

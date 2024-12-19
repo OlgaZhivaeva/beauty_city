@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from app.models import Salon, ServiceType, Service, Master
+from app.models import Salon, Service, Master
 
 
 def index(request):
