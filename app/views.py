@@ -1,31 +1,40 @@
 from django.shortcuts import render
 
+from app.models import Salon, ServiceType, Service, Master
+
 
 def index(request):
-    content = {}
-    return render(request, 'index.html', content)
+    context = {}
+    return render(request, 'index.html', context)
 
 
 def notes(request):
-    content = {}
-    return render(request, 'notes.html', content)
+    context = {}
+    return render(request, 'notes.html', context)
 
 
 def service(request):
-    content = {}
-    return render(request, 'service.html', content)
+    masters = Master.objects.all()
+    service_types = ServiceType.objects.all()
+    salons = Salon.objects.all()
+    context = {
+        'salons': salons,
+        'masters': masters,
+        'service_types': service_types
+    }
+    return render(request, 'service.html', context)
 
 
 def popup(request):
-    content = {}
-    return render(request, 'popup.html', content)
+    context = {}
+    return render(request, 'popup.html', context)
 
 
 def serviceFinally(request):
-    content = {}
-    return render(request, 'serviceFinally.html', content)
+    context = {}
+    return render(request, 'serviceFinally.html', context)
 
 
 def manager(request):
-    content = {}
-    return render(request, 'admin.html', content)
+    context = {}
+    return render(request, 'admin.html', context)
