@@ -9,6 +9,7 @@ from .models import (
     Order,
     Salon,
     Service,
+    ServiceType,
 )
 
 
@@ -24,9 +25,14 @@ class SalonAdmin(admin.ModelAdmin):
     list_display = ("title", "address")
 
 
+@admin.register(ServiceType)
+class ServiceTypeAdmin(admin.ModelAdmin):
+    pass
+
+
 @admin.register(Service)
 class ServiceAdmin(admin.ModelAdmin):
-    list_display = ("title", "price", "duration")
+    list_display = ("title", "type", "price", "duration")
 
 
 @admin.register(Master)

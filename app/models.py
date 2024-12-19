@@ -18,7 +18,7 @@ class Client(models.Model):
 class Salon(models.Model):
     title = models.CharField("Название салона", max_length=100)
     address = models.TextField("Адрес салона", max_length=200)
-    photo = models.ImageField("Фото салона", null=True, blank=True)
+    photo = models.FileField("Фото салона", null=True, blank=True)
 
     class Meta:
         verbose_name = "Салон"
@@ -28,8 +28,25 @@ class Salon(models.Model):
         return self.title
 
 
+class ServiceType(models.Model):
+    title = models.CharField(max_length=100, verbose_name="Вид услуги")
+
+    class Meta:
+        verbose_name = "Вид услуги"
+        verbose_name_plural = "Виды услуг"
+
+    def __str__(self):
+        return self.title
+
+
 class Service(models.Model):
     title = models.CharField("Название услуги", max_length=200)
+    type = models.ForeignKey(
+        ServiceType,
+        on_delete=models.PROTECT,
+        related_name="services",
+        verbose_name="Вид услуги",
+    )
     price = models.DecimalField(
         "Цена услуги",
         max_digits=8,
@@ -37,7 +54,7 @@ class Service(models.Model):
         validators=[MinValueValidator(0)],
     )
     duration = models.PositiveSmallIntegerField("Длительность услуги, мин")
-    photo = models.ImageField("Фото услуги", null=True, blank=True)
+    photo = models.FileField("Фото услуги", null=True, blank=True)
 
     class Meta:
         verbose_name = "Услуга"
@@ -50,7 +67,7 @@ class Service(models.Model):
 class Master(models.Model):
     full_name = models.CharField("ФИО", max_length=200)
     specialty = models.CharField("Специальность", max_length=200)
-    photo = models.ImageField("Фото мастера", null=True, blank=True)
+    photo = models.FileField("Фото мастера", null=True, blank=True)
 
     class Meta:
         verbose_name = "Мастер"
