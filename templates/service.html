@@ -283,7 +283,6 @@
 	<script>
 	$(document).ready(function() {
 	  let selectedSalonId = null;  // Переменная для хранения id выбранного салона
-	  let selectedServiceId = nul;  // Переменная для хранения id выбранной услуги
 
 	  // Обработчик события клика по кнопкам выбора салона
 	  $('#salon-panel .accordion__block').click(function () {
@@ -292,8 +291,8 @@
 	  });
 
 	  // Обработчик события клика по услугам
-	  $('#service-panel .accordion__block_item').click(function () {
-		const serviceId = $(this).data('id');
+	  $('.accordion__block_item').click(function () {
+	    const serviceId = $(this).data('id'); // Извлекаем id услуги
 		if (!selectedSalonId || !serviceId) return;
 
 		$.ajax({

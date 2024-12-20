@@ -46,7 +46,7 @@ def get_masters(request):
     service_id = request.GET.get('service_id')
 
     # masters = MasterDaySchedule.objects.filter(salon=salon_id, services=service_id).distinct()
-    masters = Master.objects.filter(id=service_id)
+    masters = Master.objects.all()
     response_data = []
     for master in masters:
         response_data.append({
