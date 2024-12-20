@@ -113,32 +113,32 @@
 
 
 
-				<label for="salon-select">Выберите салон:</label>
-				<select id="salon-select" name="salon">
-					<option value="">-- Выберите салон --</option>
-					    {% for salon in salons %}
-						    <option value="{{ salon.id }}">{{ salon.title }}</option>
-					    {% endfor %}
-				</select>
+<!--				<label for="salon-select">Выберите салон:</label>-->
+<!--				<select id="salon-select" name="salon">-->
+<!--					<option value="">&#45;&#45; Выберите салон &#45;&#45;</option>-->
+<!--					    {% for salon in salons %}-->
+<!--						    <option value="{{ salon.id }}">{{ salon.title }}</option>-->
+<!--					    {% endfor %}-->
+<!--				</select>-->
 
-				<br><br>
+<!--				<br><br>-->
 
-				<label for="service-type-select">Выберите тип услуги:</label>
-				<select id="service-type-select" name="service_type">
-					<option value="">-- Выберите тип услуги --</option>
-					    {% for service_type in service_types %}
-					        {% for service in service_type.services.all %}
-					            <option value="{{ service.id }}">{{ service.title }}</option>
-					        {% endfor %}
-					    {% endfor %}
-				</select>
+<!--				<label for="service-type-select">Выберите тип услуги:</label>-->
+<!--				<select id="service-type-select" name="service_type">-->
+<!--					<option value="">&#45;&#45; Выберите тип услуги &#45;&#45;</option>-->
+<!--					    {% for service_type in service_types %}-->
+<!--					        {% for service in service_type.services.all %}-->
+<!--					            <option value="{{ service.id }}">{{ service.title }}</option>-->
+<!--					        {% endfor %}-->
+<!--					    {% endfor %}-->
+<!--				</select>-->
 
-			    <br><br>
+<!--			    <br><br>-->
 
-			    <label for="master-select">Выберите мастера:</label>
-			    <select id="master-select" name="master">
-				    <option value="">-- Выберите мастера --</option>
-			    </select>
+<!--			    <label for="master-select">Выберите мастера:</label>-->
+<!--			    <select id="master-select" name="master">-->
+<!--				    <option value="">&#45;&#45; Выберите мастера &#45;&#45;</option>-->
+<!--			    </select>-->
 
 
 <!--				<label for="salon-select">Выберите Салон:</label>-->
@@ -167,50 +167,50 @@
 
 
 
-<!--				<form class="service__form">-->
-<!--					<div class="service__form_block service__salons">-->
-<!--						<button class="accordion">(Выберите салон)</button>-->
-<!--						<div class="panel">-->
-<!--							{% for salon in salons %}-->
-<!--								<div class="accordion__block accordion__block_salon fic">-->
-<!--									<div class="accordion__block_intro">{{ salon.title }}</div>-->
-<!--									<div class="accordion__block_address">{{ salon.address }}</div>-->
-<!--								</div>-->
-<!--							{% endfor %}-->
-<!--						</div>-->
-<!--					</div>-->
+				<form class="service__form">
+					<div class="service__form_block service__salons">
+						<button class="accordion">(Выберите салон)</button>
+						<div class="panel">
+							{% for salon in salons %}
+								<div class="accordion__block accordion__block_salon fic">
+									<div class="accordion__block_intro">{{ salon.title }}</div>
+									<div class="accordion__block_address">{{ salon.address }}</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
 
-<!--					<div class="service__form_block service__services">-->
-<!--						<button class="accordion">(Выберите услугу)</button>-->
-<!--						<div class="panel">-->
-<!--							{% for service_type in service_types %}-->
-<!--							    <button class="accordion">{{ service_type }}</button>-->
-<!--						 	    <div class="panel">-->
-<!--							  		<div class="accordion__block_items">-->
-<!--										{% for service in service_type.services.all %}-->
-<!--											<div class="accordion__block_item fic">-->
-<!--												<div class="accordion__block_item_intro">{{ service }}</div>-->
-<!--&lt;!&ndash;												<div class="accordion__block_item_address">{{ service }}</div>&ndash;&gt;-->
-<!--											</div>-->
-<!--							            {% endfor %}-->
-<!--							        </div>-->
-<!--						        </div>-->
-<!--							{% endfor %}-->
-<!--						</div>-->
-<!--					</div>-->
-<!--					<div class="service__form_block service__masters">-->
-<!--						<button class="accordion">(Выберите мастера)</button>-->
-<!--						<div class="panel">-->
-<!--							{% for master in masters %}-->
-<!--								<div class="accordion__block accordion__block_salon fic">-->
-<!--									<div class="accordion__block_intro">{{ master.full_name }}</div>-->
-<!--									<div class="accordion__block_address">{{ master.specialty }}</div>-->
-<!--								</div>-->
-<!--							{% endfor %}-->
-<!--						</div>-->
-<!--					</div>-->
+					<div class="service__form_block service__services">
+						<button class="accordion">(Выберите услугу)</button>
+						<div class="panel">
+							{% for service_type in service_types %}
+							    <button class="accordion">{{ service_type }}</button>
+						 	    <div class="panel">
+							  		<div class="accordion__block_items">
+										{% for service in service_type.services.all %}
+											<div class="accordion__block_item fic">
+												<div class="accordion__block_item_intro">{{ service }}</div>
+<!--												<div class="accordion__block_item_address">{{ service }}</div>-->
+											</div>
+							            {% endfor %}
+							        </div>
+						        </div>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="service__form_block service__masters">
+						<button class="accordion">(Выберите мастера)</button>
+						<div class="panel">
+							{% for master in masters %}
+								<div class="accordion__block accordion__block_salon fic">
+									<div class="accordion__block_intro">{{ master.full_name }}</div>
+									<div class="accordion__block_address">{{ master.specialty }}</div>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
 
-<!--				</form>-->
+				</form>
 			</div>
 		</div>
 	</section>

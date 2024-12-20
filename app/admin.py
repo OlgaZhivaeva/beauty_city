@@ -47,7 +47,7 @@ class ServiceInline(admin.TabularInline):
 
 @admin.register(MasterDaySchedule)
 class MasterDayScheduleAdmin(admin.ModelAdmin):
-    list_filter = ("workday", "salon", "master")
+    list_filter = ("workday", "salon", "master", )
     search_fields = ("workday", "salon", "master")
     exclude = ("services",)
     inlines = [ServiceInline]
