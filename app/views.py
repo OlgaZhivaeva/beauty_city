@@ -1,6 +1,7 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 
-from app.models import Salon, Service, Master, ServiceType
+from app.models import Salon, Service, Master, ServiceType, MasterDaySchedule
 
 
 def index(request):
@@ -39,26 +40,19 @@ def manager(request):
     context = {}
     return render(request, 'admin.html', context)
 
+
 def get_masters(request):
-    if request.is_ajax() and request.method == 'POST':
-        salon_id = request.POST.get('salon_id')
-        service_id = request.POST.get('service_id')
+    salon_id = request.GET.get('salon_id')
+    service_id = request.GET.get('service_id')
 
-        # Проверяем, что переданы оба параметра
-        if salon_id is not None and service_id is not None:
-            try:
-                salon = Salon.objects.get(id=int(salon_id))
-                service = Service.objects.get(id=int(service_id))
-            except (Salon.DoesNotExist, ValueError):
-                return JsonResponse({'error': 'Неверный идентификатор салона'}, status=400)
-            except (Service.DoesNotExist, ValueError):
-                return JsonResponse({'error': 'Неверный идентификатор услуги'}, status=400)
+    # masters = MasterDaySchedule.objects.filter(salon=salon_id, services=service_id).distinct()
+    masters = Master.objects.filter(id=service_id)
+    response_data = []
+    for master in masters:
+        response_data.append({
+            'full_name': master.full_name,
+            'specialty': master.specialty
+        })
 
-            # Получение мастеров, работающих в данном салоне и предоставляющих данную услугу
-            masters = Master.objects.filter(salons=salon, services=service).values('id', 'full_name', 'specialty')
+    return JsonResponse({'masters': response_data})
 
-            return JsonResponse(list(masters), safe=False)
-        else:
-            return JsonResponse({'error': 'Не все параметры были переданы'}, status=400)
-    else:
-        return JsonResponse({'error': 'Неправильный метод запроса'}, status=400)

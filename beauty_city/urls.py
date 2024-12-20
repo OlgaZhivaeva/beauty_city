@@ -29,5 +29,5 @@ urlpatterns = [
     path('service/', views.service, name='service'),
     path('popup/', views.popup, name='popup'),
     path('serviceFinally/', views.serviceFinally, name='serviceFinally'),
-    path('get-masters/', views.get_masters, name='get_masters'),
+    path('get_masters/', views.get_masters, name='get_masters'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

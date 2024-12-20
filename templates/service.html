@@ -3,9 +3,7 @@
 <head>
 	<meta charset="UTF-8">
     <!-- Подключение jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <!-- Подключение плагина Chained Selects -->
-    <script src="https://github.com/tuupola/jquery_chained/blob/master/dist/jquery.chained.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Beauty City</title>
@@ -113,104 +111,46 @@
 
 
 
-<!--				<label for="salon-select">Выберите салон:</label>-->
-<!--				<select id="salon-select" name="salon">-->
-<!--					<option value="">&#45;&#45; Выберите салон &#45;&#45;</option>-->
-<!--					    {% for salon in salons %}-->
-<!--						    <option value="{{ salon.id }}">{{ salon.title }}</option>-->
-<!--					    {% endfor %}-->
-<!--				</select>-->
-
-<!--				<br><br>-->
-
-<!--				<label for="service-type-select">Выберите тип услуги:</label>-->
-<!--				<select id="service-type-select" name="service_type">-->
-<!--					<option value="">&#45;&#45; Выберите тип услуги &#45;&#45;</option>-->
-<!--					    {% for service_type in service_types %}-->
-<!--					        {% for service in service_type.services.all %}-->
-<!--					            <option value="{{ service.id }}">{{ service.title }}</option>-->
-<!--					        {% endfor %}-->
-<!--					    {% endfor %}-->
-<!--				</select>-->
-
-<!--			    <br><br>-->
-
-<!--			    <label for="master-select">Выберите мастера:</label>-->
-<!--			    <select id="master-select" name="master">-->
-<!--				    <option value="">&#45;&#45; Выберите мастера &#45;&#45;</option>-->
-<!--			    </select>-->
-
-
-<!--				<label for="salon-select">Выберите Салон:</label>-->
-<!--				<select id="salon-select" name="salon">-->
-<!--					{% for salon in salons %}-->
-<!--						<option value="{{ salon.id }}">{{ salon.title }}</option>-->
-<!--					{% endfor %}-->
-<!--				</select>-->
-
-<!--				<br><br>-->
-
-<!--				<label for="service-select">Выберите Услугу:</label>-->
-<!--				<select id="service-select" name="service">-->
-<!--					{% for service in services %}-->
-<!--						<option value="{{ service.id }}">{{ service.title }}</option>-->
-<!--					{% endfor %}-->
-<!--				</select>-->
-
-<!--				<br><br>-->
-
-<!--				<label for="master-select">Выберите Мастера:</label>-->
-<!--				<select id="master-select" name="master">-->
-<!--					&lt;!&ndash; Здесь будут загружены мастера после выбора салона и услуги &ndash;&gt;-->
-<!--				</select>-->
-
-
-
-
 				<form class="service__form">
+				    <!-- Выбор салона -->
 					<div class="service__form_block service__salons">
-						<button class="accordion">(Выберите салон)</button>
-						<div class="panel">
+					    <button id="select-salon-btn" class="accordion">(Выберите салон)</button>
+					    <div id="salon-panel" class="panel">
 							{% for salon in salons %}
-								<div class="accordion__block accordion__block_salon fic">
-									<div class="accordion__block_intro">{{ salon.title }}</div>
-									<div class="accordion__block_address">{{ salon.address }}</div>
-								</div>
-							{% endfor %}
-						</div>
-					</div>
-
-					<div class="service__form_block service__services">
-						<button class="accordion">(Выберите услугу)</button>
-						<div class="panel">
-							{% for service_type in service_types %}
-							    <button class="accordion">{{ service_type }}</button>
-						 	    <div class="panel">
-							  		<div class="accordion__block_items">
-										{% for service in service_type.services.all %}
-											<div class="accordion__block_item fic">
-												<div class="accordion__block_item_intro">{{ service }}</div>
-<!--												<div class="accordion__block_item_address">{{ service }}</div>-->
-											</div>
-							            {% endfor %}
-							        </div>
+						        <div data-id="{{ salon.id }}" class="accordion__block accordion__block_salon fic">
+						            <div class="accordion__block_intro">{{ salon.title }}</div>
+						            <div class="accordion__block_address">{{ salon.address }}</div>
 						        </div>
-							{% endfor %}
-						</div>
-					</div>
-					<div class="service__form_block service__masters">
-						<button class="accordion">(Выберите мастера)</button>
-						<div class="panel">
-							{% for master in masters %}
-								<div class="accordion__block accordion__block_salon fic">
-									<div class="accordion__block_intro">{{ master.full_name }}</div>
-									<div class="accordion__block_address">{{ master.specialty }}</div>
+					        {% endfor %}
+					    </div>
+				    </div>
+
+				    <!-- Выбор услуги -->
+				    <div class="service__form_block service__services">
+					    <button id="select-service-btn" class="accordion">(Выберите услугу)</button>
+						<div id="service-panel" class="panel">
+							{% for service_type in service_types %}
+								<button data-type="{{ service_type.id }}" class="accordion">{{ service_type }}</button>
+								<div class="panel">
+									<div class="accordion__block_items">
+										{% for service in service_type.services.all %}
+											<div data-id="{{ service.id }}" class="accordion__block_item fic">
+											<div class="accordion__block_item_intro">{{ service }}</div>
+											</div>
+										{% endfor %}
+									</div>
 								</div>
 							{% endfor %}
 						</div>
-					</div>
+				    </div>
 
+				    <!-- Выбор мастера -->
+					<div class="service__form_block service__masters">
+					    <button id="select-master-btn" class="accordion">(Выберите мастера)</button>
+					        <div id="master-panel" class="panel"></div>
+				    </div>
 				</form>
+
 			</div>
 		</div>
 	</section>
@@ -338,67 +278,53 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-
-    <script>
-        $(document).ready(function() {
-            // Функция для получения мастеров по салону и услуге
-            function updateMasters(salonId, serviceId) {
-                $.ajax({
-                    url: '{% url 'get_masters' %}',
-                    data: {
-                        'salon_id': salonId,
-                        'service_id': serviceId
-                    },
-                    success: function(response) {
-                        var mastersSelect = $('#master-select');
-                        mastersSelect.empty();
-
-                        if (response.length > 0) {
-                            mastersSelect.append('<option value="">-- Выберите мастера --</option>');
-
-                            response.forEach(function(master) {
-                                mastersSelect.append(`<option value="${master.id}">${master.full_name} (${master.specialty})</option>`);
-                            });
-                        } else {
-                            mastersSelect.append('<option value="">Нет подходящих мастеров</option>');
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Ошибка при получении мастеров:', xhr.statusText);
-                    }
-                });
-            }
-
-            // Обработчик изменения значения в списке салонов
-            $('#salon-select').change(function() {
-                var salonId = $(this).val();
-                var serviceId = $('#service-select').val();
-
-                if (salonId && serviceId) {
-                    updateMasters(salonId, serviceId);
-                } else {
-                    $('#master-select').empty().append('<option value="">-- Выберите мастера --</option>');
-                }
-            });
-
-            // Обработчик изменения значения в списке услуг
-            $('#service-select').change(function() {
-                var serviceId = $(this).val();
-                var salonId = $('#salon-select').val();
-
-                if (serviceId && salonId) {
-                    updateMasters(salonId, serviceId);
-                } else {
-                    $('#master-select').empty().append('<option value="">-- Выберите мастера --</option>');
-                }
-            });
-        });
-    </script>
-
-
-
-
-
 	<script src="{% static 'js/main.js' %}"></script>
+
+	<script>
+	$(document).ready(function() {
+	  let selectedSalonId = null;  // Переменная для хранения id выбранного салона
+	  let selectedServiceId = nul;  // Переменная для хранения id выбранной услуги
+
+	  // Обработчик события клика по кнопкам выбора салона
+	  $('#salon-panel .accordion__block').click(function () {
+		selectedSalonId = $(this).data('id');
+		$('#select-service-btn').prop('disabled', false); // Активируем кнопку выбора услуги
+	  });
+
+	  // Обработчик события клика по услугам
+	  $('#service-panel .accordion__block_item').click(function () {
+		const serviceId = $(this).data('id');
+		if (!selectedSalonId || !serviceId) return;
+
+		$.ajax({
+		  url: '/get_masters/', // URL для получения мастеров
+		  method: 'GET',
+		  data: {
+			salon_id: selectedSalonId,
+			service_id: serviceId,
+		  },
+		  success: function (response) {
+			updateMastersPanel(response.masters);
+		  },
+		});
+	  });
+
+	  // Функция обновления панели с мастерами
+	  function updateMastersPanel(masters) {
+		let content = '';
+		masters.forEach((master) => {
+		  content += `
+			<div class="accordion__block accordion__block_salon fic">
+			  <div class="accordion__block_intro">${master.full_name}</div>
+			  <div class="accordion__block_address">${master.specialty}</div>
+			</div>
+		  `;
+		});
+		$('#master-panel').html(content);
+	  }
+	});
+	</script>
+
+
 </body>
 </html>
