@@ -148,7 +148,13 @@
 					<div class="service__form_block service__masters">
 					    <button id="select-master-btn" class="accordion">(Выберите мастера)</button>
 					        <div id="master-panel" class="panel"></div>
-				    </div>
+<!--						    &lt;!&ndash; Контейнер для отображения фотографии мастера &ndash;&gt;-->
+<!--							<div id="master-details">-->
+<!--								<img id="master-photo" src="{{ master.photo_url }}" alt="Фото мастера" style="display: none; width: 150px; height: auto; margin-right: 10px;">-->
+<!--								<div id="master-info" style="display: inline-block; vertical-align: middle;"></div>-->
+<!--							</div>-->
+
+                    </div>
 				</form>
 
 			</div>
@@ -279,51 +285,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<script src="{% static 'js/main.js' %}"></script>
-
-	<script>
-	$(document).ready(function() {
-	  let selectedSalonId = null;  // Переменная для хранения id выбранного салона
-
-	  // Обработчик события клика по кнопкам выбора салона
-	  $('#salon-panel .accordion__block').click(function () {
-		selectedSalonId = $(this).data('id');
-		$('#select-service-btn').prop('disabled', false); // Активируем кнопку выбора услуги
-	  });
-
-	  // Обработчик события клика по услугам
-	  $('.accordion__block_item').click(function () {
-	    const serviceId = $(this).data('id'); // Извлекаем id услуги
-		if (!selectedSalonId || !serviceId) return;
-
-		$.ajax({
-		  url: '/get_masters/', // URL для получения мастеров
-		  method: 'GET',
-		  data: {
-			salon_id: selectedSalonId,
-			service_id: serviceId,
-		  },
-		  success: function (response) {
-			updateMastersPanel(response.masters);
-		  },
-		});
-	  });
-
-	  // Функция обновления панели с мастерами
-	  function updateMastersPanel(masters) {
-		let content = '';
-		masters.forEach((master) => {
-		  content += `
-			<div class="accordion__block accordion__block_salon fic">
-			  <div class="accordion__block_intro">${master.full_name}</div>
-			  <div class="accordion__block_address">${master.specialty}</div>
-			</div>
-		  `;
-		});
-		$('#master-panel').html(content);
-	  }
-	});
-	</script>
-
+    <script src="{% static 'js/select-masters-with-photo.js' %}"></script>
 
 </body>
 </html>

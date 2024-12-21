@@ -53,7 +53,8 @@ def get_masters(request):
     for master in masters:
         response_data.append({
             'full_name': master.full_name,
-            'specialty': master.specialty
+            'specialty': master.specialty,
+            'photo': master.photo.url,
         })
 
     return JsonResponse({'masters': response_data})
