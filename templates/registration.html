@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Beauty City - Регистрация{% endblock %}
+
+{% block content %}
+	<div class="banner" style="display: flex; justify-content: center;">
+    {% if otp_verify %}
+		<div class="confirmPopup popup">
+			<div class="popup__title confirmPopup__title">Подтвердите номер</div>
+				<p class="popup__text confirmPopup__text">Введите код, полученный по SMS на номер {{ phone_number }}</p>
+				<form method="post" action="{% url 'user_registration' %}" class="authPopup__form">
+				{% csrf_token %}
+					<div style="margin-bottom: 19px;">
+						<input type="text" name="otp" class="tipsPopup__form_inputNum popup__input" placeholder="{{ otp }}" required>
+					</div>
+					<button type="submit" class="popup__btn authPopup__btn">Подтвердить</button>
+				</form>
+				<br>
+			<div class="confirmPopup__sms">Если SMS не пришло вы можете <a href="#" class="popup__link">запросить код повторно</a></div>
+			<div class="confirmPopup__changeNumber">
+				<a href="/register/" class="confirmPopup__link popup__link">Изменить номер телефона</a>
+			</div>
+			<br>
+			{% if messages %}
+				{% for message in messages %}
+					<div class="error_block">{{ message }}</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+	{% else %}
+		<div class="authPopup popup">
+			<div class="popup__title authPopup__title">Регистрация</div>
+			<p class="popup__text authPopup__text">Введите номер телефона и ваше имя</p>
+			<form method="post" action="{% url 'user_registration' %}" class="authPopup__form">
+			{% csrf_token %}
+				<div class="contacts__form_inputBlock">
+					<input type="text" name="phone_number" class="contacts__form_iunput" placeholder="+7-999-999-99-99" required="">
+				</div>
+				<div>
+					<input type="text" name="full_name" class="contacts__form_iunput" placeholder="ФИО" required="">
+				</div>
+				<div class="contacts__form_checkboxBlock fic">
+					<input type="checkbox" class="contacts__form_checkbox" checked="">
+					<span class="contacts__form_checkboxBlock__intro">Я согласен(а) с политикой конфидециоальности</span>
+				</div>
+				<button type="submit" class="popup__btn authPopup__btn">Отправить</button>
+			</form>
+			<br>
+			{% if messages %}
+				{% for message in messages %}
+					<div class="error_block">{{ message }}</div>
+				{% endfor %}
+			{% endif %}
+		</div>
+	{% endif %}
+	</div>
+{% endblock %}
