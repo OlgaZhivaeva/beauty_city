@@ -1,18 +1,66 @@
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.validators import MinValueValidator
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
 
-class Client(models.Model):
+class UserManager(BaseUserManager):
+    def create_user(
+        self,
+        phone_number,
+        full_name,
+        password=None,
+        **extra_fields,
+    ):
+        user = self.model(
+            phone_number=phone_number,
+            full_name=full_name,
+            **extra_fields,
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(
+        self, phone_number, full_name, password=None, **extra_fields
+    ):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        user = self.create_user(
+            phone_number,
+            full_name,
+            password,
+            **extra_fields,
+        )
+        user.is_admin = True
+        user.save(using=self._db)
+        return user
+
+
+class ClientUser(AbstractBaseUser):
+    phone_number = PhoneNumberField("Телефон", region="RU", unique=True)
     full_name = models.CharField("ФИО", max_length=200)
-    phone_number = PhoneNumberField("Телефон", region="RU")
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
+    USERNAME_FIELD = "phone_number"
+    REQUIRED_FIELDS = ["full_name"]
+    objects = UserManager()
 
     class Meta:
         verbose_name = "Клиент"
         verbose_name_plural = "Клиенты"
 
-    def __str__(self) -> str:
-        return self.full_name
+    def __str__(self):
+        return f"{str(self.phone_number)} {self.full_name}"
+
+    def has_perm(self, perm, obj=None):
+        return self.is_admin
+
+    def has_module_perms(self, app_label):
+        return self.is_admin
 
 
 class Salon(models.Model):
@@ -111,7 +159,7 @@ class Invoice(models.Model):
         ("paid", "Оплачено"),
     ]
     client = models.ForeignKey(
-        Client, on_delete=models.PROTECT, verbose_name="Клиент"
+        ClientUser, on_delete=models.PROTECT, verbose_name="Клиент"
     )
     status = models.CharField("Статус счета", max_length=20, choices=STATUS)
     created_at = models.DateTimeField("Счёт выставлен", auto_now_add=True)
@@ -140,7 +188,7 @@ class Order(models.Model):
         verbose_name="Салон",
     )
     client = models.ForeignKey(
-        Client,
+        ClientUser,
         related_name="orders",
         on_delete=models.PROTECT,
         verbose_name="Клиент",
@@ -173,7 +221,7 @@ class Order(models.Model):
 class Feedback(models.Model):
     date = models.DateField("Дата посещения салона")
     client = models.ForeignKey(
-        Client,
+        ClientUser,
         related_name="feedbacks",
         on_delete=models.PROTECT,
         verbose_name="Клиент",

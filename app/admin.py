@@ -1,7 +1,8 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 
 from .models import (
-    Client,
+    ClientUser,
     Feedback,
     Invoice,
     Master,
@@ -13,10 +14,10 @@ from .models import (
 )
 
 
-@admin.register(Client)
-class ClientAdmin(admin.ModelAdmin):
-    list_display = ("full_name", "phone_number")
-    search_fields = ("full_name", "phone_number")
+@admin.register(ClientUser)
+class ClientUserAdmin(admin.ModelAdmin):
+    list_display = ("phone_number", "full_name")
+    search_fields = ("phone_number", "full_name")
     list_filter = ("full_name",)
 
 
@@ -43,6 +44,8 @@ class MasterAdmin(admin.ModelAdmin):
 class ServiceInline(admin.TabularInline):
     model = MasterDaySchedule.services.through
     extra = 0
+    verbose_name = "Услуга"
+    verbose_name_plural = "Услуги"
 
 
 @admin.register(MasterDaySchedule)
@@ -70,3 +73,6 @@ class OrderAdmin(admin.ModelAdmin):
 class FeedbackAdmin(admin.ModelAdmin):
     list_display = ("date", "client")
     list_filter = ("date", "client")
+
+
+admin.site.unregister(Group)

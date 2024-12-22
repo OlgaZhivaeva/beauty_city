@@ -31,6 +31,9 @@ color: #323232;
 
 opacity: 0.3;
 }
+a {
+	text-decoration: none;
+}
 .container {
 	max-width: 1211px;
 	width: 100%;
@@ -120,6 +123,14 @@ margin-right: 22px;
 /* основной 2 */
 border:  none;
 color: #F6A912;
+}
+.error_block {
+padding: 10px;
+margin: 0 15px;
+background: #f8d7da;
+border-radius: 5px;
+border: 1px solid #f5c2c7;
+color: #842029;
 }
 .header__block_auth {
 cursor: pointer;
@@ -2015,7 +2026,7 @@ margin-bottom: 15px;
 background: #FAFAFA;
 border: 1px solid rgba(50, 50, 50, 0.1);
 border-radius: 10px;
-width: 49px;
+width: 100px;
 height: 71px;
 text-align: center;
 margin-right: 10px;

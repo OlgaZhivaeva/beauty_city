@@ -413,6 +413,6 @@ $(document).ready(function() {
 		}
 	})
 	
-
+	$('#curr_year').text( (new Date).getFullYear() );
 
 })
