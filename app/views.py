@@ -49,37 +49,36 @@ def serviceFinally(request):
     if request.method == 'POST':
         salon_id = request.POST.get('salon_id')
         service_id = request.POST.get('service_id')
-        # master_id = request.POST.get('master_id')
+        master_id = request.POST.get('master_id')
         # selected_date = request.POST.get('selected_date')
         # selected_time = request.POST.get('selected_time')
 
-        if not all([salon_id, service_id]):
-            context['error'] = 'Не все данные переданы'
-            return render(request, 'serviceFinally.html', context)
+        # if not all([salon_id, service_id, master_id]):
+        #     context['error'] = 'Не все данные переданы'
+        #     return render(request, 'serviceFinally.html', context)
 
         try:
             salon_id = int(salon_id)
             service_id = int(service_id)
-            # master_id = int(master_id)
-
+            master_id = int(master_id)
+            #
             salon = Salon.objects.get(id=salon_id)
             service = Service.objects.get(id=service_id)
-            # master = Master.objects.get(id=master_id)
+            master = Master.objects.get(id=master_id)
 
             context = {
                 'salon': salon,
                 'service': service,
-                # 'master': master,
-                # 'selected_date': selected_date,
-                # 'selected_time': selected_time
+                'master': master,
+                'selected_date': '28.12.2024',
+                'selected_time': '10:00'
             }
-
             return render(request, 'serviceFinally.html', context)
         except Exception as e:
             context = {}
             return render(request, 'serviceFinally.html', context)
     else:
-        return HttpResponseRedirect('service')
+        return HttpResponseRedirect('index.html')
 
 
 def manager(request):
