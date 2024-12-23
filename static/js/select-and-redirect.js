@@ -1,7 +1,8 @@
-let selectedSalonId = null;  // Переменная для хранения id выбранного салона
-let selectedServiceId = null;  // Переменная для хранения id выбранной услуги
-let selectedMasterId = null;  // Переменная для хранения id выбранного мастера
 $(document).ready(function() {
+  let selectedSalonId = null;  // Переменная для хранения id выбранного салона
+  let selectedServiceId = null;  // Переменная для хранения id выбранной услуги
+  let selectedMasterId = null;  // Переменная для хранения id выбранного мастера
+
   // Обработчик события клика по кнопкам выбора салона
   $('#salon-panel .accordion__block').click(function () {
     selectedSalonId = $(this).data('id');
