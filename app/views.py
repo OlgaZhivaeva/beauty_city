@@ -61,7 +61,7 @@ def serviceFinally(request):
             salon_id = int(salon_id)
             service_id = int(service_id)
             master_id = int(master_id)
-            #
+
             salon = Salon.objects.get(id=salon_id)
             service = Service.objects.get(id=service_id)
             master = Master.objects.get(id=master_id)
@@ -75,7 +75,10 @@ def serviceFinally(request):
             }
             return render(request, 'serviceFinally.html', context)
         except Exception as e:
-            context = {}
+            context = {
+                'selected_date': '29.12.2024',
+                'selected_time': '11:00'
+            }
             return render(request, 'serviceFinally.html', context)
     else:
         return HttpResponseRedirect('index.html')

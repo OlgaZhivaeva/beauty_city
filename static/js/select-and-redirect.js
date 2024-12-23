@@ -47,21 +47,22 @@ $(document).ready(function() {
   $('.time__elems_btn').on('click', function() {
     var selectedTime = $(this).data('time');
 
+    // Активируем кнопку "Далее"
+    $('.time__btns_next').prop('disabled', false);
+
     // Сохраняем выбранное время в hidden input
     $('input[name="selected_time"]').val(selectedTime);
     $('input[name="salon_id"]').attr('value', selectedSalonId);
     $('input[name="service_id"]').attr('value', selectedServiceId);
     $('input[name="master_id"]').attr('value', selectedMasterId);
 
-    // Активируем кнопку "Далее"
-    $('.time__btns_next').prop('disabled', false);
 
     // Отправляем выбранные значения на сервер
     $.ajax({
       url: '/serviceFinally/', // URL для проверки и редиректа
       method: 'POST',
       data: {
-        csrfmiddlewaretoken: $('[name=csrfmiddlewaretoken]').val(), // Передача CSRF-токена
+//        csrfmiddlewaretoken: $('[name=csrfmiddlewaretoken]').val(), // Передача CSRF-токена
         salon_id: selectedSalonId,
         service_id: selectedServiceId,
         master_id: selectedMasterId,
