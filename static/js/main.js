@@ -373,31 +373,31 @@ $(document).ready(function() {
 	// })
 
 
-	//popup
-	$('.header__block_auth').click(function(e) {
-		e.preventDefault()
-		$('#authModal').arcticmodal();
-		// $('#confirmModal').arcticmodal();
+	// //popup
+	// $('.header__block_auth').click(function(e) {
+	// 	e.preventDefault()
+	// 	$('#authModal').arcticmodal();
+	// 	// $('#confirmModal').arcticmodal();
 
-	})
+	// })
 
-	$('.rewiewPopupOpen').click(function(e) {
-		e.preventDefault()
-		$('#reviewModal').arcticmodal();
-	})
-	$('.payPopupOpen').click(function(e) {
-		e.preventDefault()
-		$('#paymentModal').arcticmodal();
-	})
-	$('.tipsPopupOpen').click(function(e) {
-		e.preventDefault()
-		$('#tipsModal').arcticmodal();
-	})
+	// $('.rewiewPopupOpen').click(function(e) {
+	// 	e.preventDefault()
+	// 	$('#reviewModal').arcticmodal();
+	// })
+	// $('.payPopupOpen').click(function(e) {
+	// 	e.preventDefault()
+	// 	$('#paymentModal').arcticmodal();
+	// })
+	// $('.tipsPopupOpen').click(function(e) {
+	// 	e.preventDefault()
+	// 	$('#tipsModal').arcticmodal();
+	// })
 	
-	$('.authPopup__form').submit(function() {
-		$('#confirmModal').arcticmodal();
-		return false
-	})
+	// $('.authPopup__form').submit(function() {
+	// 	$('#confirmModal').arcticmodal();
+	// 	return false
+	// })
 
 	//service
 	$('.time__items .time__elems_elem .time__elems_btn').click(function(e) {

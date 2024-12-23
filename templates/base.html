@@ -81,11 +81,13 @@
 						<a href="tel:+79179023800"><button class="header__block_btn">Перезвоните мне</button></a>
 						<div class="header__block_auth">
 							<img src="{% static 'img/acc.svg' %}" alt="account" class="header__account_img">
-							{% if user.is_authenticated %}
-								<span class="header__block_auth__intro">{{ user.phone_number }}<br><a href="/logout/">Выйти</a></span>
-							{% else %}
-								<span class="header__block_auth__intro"><a href="/login/">Войти</a></span>
-							{% endif %}
+							<span class="header__block_auth__intro">
+								{% if user.is_authenticated %}
+									{{ user.phone_number }}<br><a href="/logout/">Выйти</a>
+								{% else %}
+									<a href="/login/">Войти</a>
+								{% endif %}
+							</span>
 						</div>
 					</div>
 					</div>
@@ -164,7 +166,7 @@
 		</div>
 	</footer>
 
-	<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{% static 'js/air-datepicker.js' %}"></script>
 	<script src="{% static 'js/jquery.arcticmodal-0.3.min.js' %}"></script>
