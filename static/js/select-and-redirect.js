@@ -32,28 +32,51 @@ $(document).ready(function() {
     selectedMasterId = $(this).data('id');
     if (!selectedSalonId || !selectedServiceId || !selectedMasterId) return;
 
-    // Отправляем выбранные значения на сервер
-    $.ajax({
-      url: '/serviceFinally/', // URL для проверки и редиректа
-      method: 'POST',
-      data: {
-        csrfmiddlewaretoken: $('[name=csrfmiddlewaretoken]').val(), // Передача CSRF-токена
-        salon_id: selectedSalonId,
-        service_id: selectedServiceId,
-        master_id: selectedMasterId,
-      },
-      success: function (response) {
-        if (response.status === 'ok') {
-          window.location.href = response.redirect_url; // Переходим на следующую страницу
-        } else {
-          alert('Ошибка: ' + response.message);
-        }
-      },
-      error: function (xhr, status, error) {
-        console.error(error);
-      }
-    });
   });
+
+  // Инициализация datepicker
+  $('#datepickerHere').datepicker({
+    minDate: 0,
+    onSelect: function(dateText) {
+      // Сохраняем выбранную дату в hidden input
+      $('input[name="selected_date"]').val(dateText);
+    }
+  });
+
+  // Обработчик события нажатия кнопок времени
+  $('.time__elems_btn').on('click', function() {
+    var selectedTime = $(this).data('time');
+
+    // Сохраняем выбранное время в hidden input
+    $('input[name="selected_time"]').val(selectedTime);
+
+    // Активируем кнопку "Далее"
+    $('.time__btns_next').prop('disabled', false);
+  });
+
+  // Отправляем выбранные значения на сервер
+  $.ajax({
+    url: '/serviceFinally/', // URL для проверки и редиректа
+    method: 'POST',
+    data: {
+      csrfmiddlewaretoken: $('[name=csrfmiddlewaretoken]').val(), // Передача CSRF-токена
+      salon_id: selectedSalonId,
+      service_id: selectedServiceId,
+      master_id: selectedMasterId,
+    },
+    success: function (response) {
+      if (response.status === 'ok') {
+        window.location.href = response.redirect_url; // Переходим на следующую страницу
+      } else {
+        alert('Ошибка: ' + response.message);
+      }
+    },
+    error: function (xhr, status, error) {
+      console.error(error);
+    }
+  });
+
+
 
   // Функция обновления панели с мастерами (с фото)
   function updateMastersPanel(masters) {
