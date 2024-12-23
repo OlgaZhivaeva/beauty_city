@@ -26,7 +26,7 @@
 	<script src="{% static 'js/air-datepicker.js' %}"></script>
 	<link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
-<body class="servicePage">
+<body>
 	<section id="mobMenu">
 			<div class="mobMenu">
 				<div class="container">
@@ -47,9 +47,7 @@
 						<div class="col-md-3">
 							<nav>
 								<ul class="mobMenu__menu">
-									<li class="mobMenu__menu_item">
-										<a href="#" class="mobMenu__menu_link">Мастера</a>
-									</li>
+									<li class="mobMenu__menu_item"><a href="#" class="mobMenu__menu_link">Мастера</a></li>
 									<li class="mobMenu__menu_item"><a href="#" class="mobMenu__menu_link">Услуги</a></li>
 									<li class="mobMenu__menu_item"><a href="#" class="mobMenu__menu_link">Отзывы</a></li>
 									<li class="mobMenu__menu_item"><a href="#" class="mobMenu__menu_link">Контакты</a></li>
@@ -91,20 +89,22 @@
 					</div>
 					<div class="col-2 col-md-2 col-lg-3">
 						<div class="header__block">
-						<button class="header__block_btn">Перезвоните мне</button>
+						<a href="tel:+79179023800"><button class="header__block_btn">Перезвоните мне</button></a>
 						<div class="header__block_auth">
 							<img src="{% static 'img/acc.svg' %}" alt="account" class="header__account_img">
-							<span class="header__block_auth__intro">Войти</span>
+							{% if user.is_authenticated %}
+								<span class="header__block_auth__intro">{{ user.phone_number }}<br><a href="/logout/">Выйти</a></span>
+							{% else %}
+								<span class="header__block_auth__intro"><a href="/login/">Войти</a></span>
+							{% endif %}
 						</div>
 					</div>
 					</div>
 				</div>
-
-
-
 			</div>
 		</div>
 	</header>
+
 	<section id="service">
 		<div class="container">
 			<div class="service">
@@ -133,7 +133,7 @@
 
 				    <!-- Выбор услуги -->
 				    <div class="service__form_block service__services">
-					    <button id="select-service-btn" class="accordion">(Выберите услугу)</button>
+						<button id="select-service-btn" class="accordion" disabled>(Выберите услугу)</button>
 						<div id="service-panel" class="panel">
 							{% for service_type in service_types %}
 								<button data-type="{{ service_type.id }}" class="accordion">{{ service_type }}</button>
@@ -204,7 +204,8 @@
 					<div class="time__btns">
 						<div class="row">
 							<div class="col-md-12">
-								<a href="{% url 'serviceFinally' %}"><button class="time__btns_home">Далее</button></a>
+								<button  class="time__btns_next">Далее</button>
+<!--								<a href="{% url 'serviceFinally' %}"><button class="time__btns_home">Далее</button></a>-->
 								<a href="{% url 'index' %}"><button class="time__btns_home">На главную</button></a>
 							</div>
 						</div>
@@ -292,3 +293,4 @@
 <!--    <script src="{% static 'js/select-data-and-redirect.js' %}"></script>-->
     <script src="{% static 'js/select-and-redirect.js' %}"></script>
 </body>
+</html>

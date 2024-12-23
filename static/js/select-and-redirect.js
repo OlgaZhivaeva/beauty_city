@@ -1,8 +1,7 @@
+let selectedSalonId = null;  // Переменная для хранения id выбранного салона
+let selectedServiceId = null;  // Переменная для хранения id выбранной услуги
+let selectedMasterId = null;  // Переменная для хранения id выбранного мастера
 $(document).ready(function() {
-  let selectedSalonId = null;  // Переменная для хранения id выбранного салона
-  let selectedServiceId = null;  // Переменная для хранения id выбранной услуги
-  let selectedMasterId = null;  // Переменная для хранения id выбранного мастера
-
   // Обработчик события клика по кнопкам выбора салона
   $('#salon-panel .accordion__block').click(function () {
     selectedSalonId = $(this).data('id');
@@ -32,26 +31,6 @@ $(document).ready(function() {
     selectedMasterId = $(this).data('id');
     if (!selectedSalonId || !selectedServiceId || !selectedMasterId) return;
 
-  // Инициализация datepicker
-  $('#datepickerHere').datepicker({
-    minDate: 0,
-    onSelect: function(dateText) {
-      // Сохраняем выбранную дату в hidden input
-      $('input[name="selected_date"]').val(dateText);
-    }
-  });
-
-  // Обработчик события нажатия кнопок времени
-  $('.time__elems_btn').on('click', function() {
-    var selectedTime = $(this).data('time');
-
-    // Сохраняем выбранное время в hidden input
-    $('input[name="selected_time"]').val(selectedTime);
-
-    // Активируем кнопку "Далее"
-    $('.time__btns_home').prop('disabled', false);
-  });
-
     // Отправляем выбранные значения на сервер
     $.ajax({
       url: '/serviceFinally/', // URL для проверки и редиректа
@@ -61,7 +40,6 @@ $(document).ready(function() {
         salon_id: selectedSalonId,
         service_id: selectedServiceId,
         master_id: selectedMasterId,
-        selected_date: $('input[name="selected_date"]').val(), // Добавление выбранной даты
       },
       success: function (response) {
         if (response.status === 'ok') {
@@ -92,13 +70,4 @@ $(document).ready(function() {
     });
     $('#master-panel').html(content);
   }
-
-  // Инициализация datepicker
-  $('#datepickerHere').datepicker({
-    minDate: 0,
-    onSelect: function(dateText) {
-      // Сохраняем выбранную дату в hidden input
-      $('input[name="selected_date"]').val(dateText);
-    }
-  });
 });
