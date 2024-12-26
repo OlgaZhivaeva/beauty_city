@@ -2,14 +2,6 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-    <!-- Подключение jQuery -->
-<!--	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>-->
-	<!-- Подключаем jQuery UI -->
-<!--    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>-->
-	<!-- Подключаем стили jQuery UI -->
-<!--    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">-->
-
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Beauty City</title>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -104,20 +96,18 @@
 			</div>
 		</div>
 	</header>
-
-	<section id="service">
-		<div class="container">
-			<div class="service">
-				<div class="breadCrumbs">
-					<a href="#" class="breadCrumbs__item">На главную</a>
-				</div>
-				<div class="service__block">
-					<h1 class="service__title">Запись на услугу</h1>
-					<button class="service__btn btn">Запись по телефону</button>
-				</div>
-
-<!--                <form action="{% url 'serviceFinally' %}" method="post">{% csrf_token %}-->
-				<form class="service__form">
+	<form action="{% url 'pre_appointment' %}" method="post">
+		{% csrf_token %}
+		<section id="service">
+			<div class="container">
+				<div class="service">
+					<div class="breadCrumbs">
+						<a href="#" class="breadCrumbs__item">На главную</a>
+					</div>
+					<div class="service__block">
+						<h1 class="service__title">Запись на услугу</h1>
+						<button class="service__btn btn">Запись по телефону</button>
+					</div>
 				    <!-- Выбор салона -->
 					<div class="service__form_block service__salons">
 					    <button id="select-salon-btn" class="accordion">(Выберите салон)</button>
@@ -154,17 +144,14 @@
 				    <!-- Выбор мастера -->
 					<div class="service__form_block service__masters">
 					    <button id="select-master-btn" class="accordion">(Выберите мастера)</button>
-					        <div id="master-panel" class="panel"></div>
-
+						   <div id="master-panel" class="panel"></div>
                     </div>
-				</form>
 
+
+				</div>
 			</div>
-		</div>
-	</section>
-	<section id="time">
-<!--		<form action="{% url 'serviceFinally' %}" method="post">{% csrf_token %}-->
-		<form class="time__form">
+		</section>
+		<section id="time">
 			<div class="container">
 				<div class="time">
 					<h2 class="time__title">Выберите время</h2>
@@ -172,6 +159,7 @@
 						<div class="row">
 							<div class="col-md-4">
 								<div id="datepickerHere"></div>
+								<input type="hidden" name="selected_date" id="selected_date">
 							</div>
 							<div class="col-md-8">
 								<div class="time__elems">
@@ -206,15 +194,15 @@
 					<div class="time__btns">
 						<div class="row">
 							<div class="col-md-12">
-								<button  class="time__btns_next">Далее</button>
+								 <button type="button" class="time__btns_next">Далее</button>
 								<a href="{% url 'index' %}"><button class="time__btns_home">На главную</button></a>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</form>
-	</section>
+		</section>
+	</form>
 	<footer id="footer">
 		<div class="container">
 			<div class="footer">
@@ -278,8 +266,6 @@
 							</div>
 						</div>
 
-
-
 					</div>
 
 				</div>
@@ -290,8 +276,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<script src="{% static 'js/main.js' %}"></script>
-<!--    <script src="{% static 'js/select-masters-with-photo.js' %}"></script>-->
-<!--    <script src="{% static 'js/select-data-and-redirect.js' %}"></script>-->
-    <script src="{% static 'js/select-and-redirect.js' %}"></script>
+	<script src="{% static 'js/updateed-select.js' %}"></script>
 </body>
 </html>

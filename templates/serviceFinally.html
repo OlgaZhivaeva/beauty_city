@@ -105,8 +105,12 @@
 						<div class="service__block">
 							<h1 class="service__title">Запись на услугу</h1>
 						</div>
-						<form action="#" class="serviceFinally__form" method="post">{% csrf_token %}
-<!--						<form action="#" class="serviceFinally__form">-->
+                        <form action="{% url 'create_appointment' %}" class="serviceFinally__form" method="post">{% csrf_token %}
+							<input type="hidden" name="salon_id" value="{{ salon.id }}">
+                            <input type="hidden" name="service_id" value="{{ service.id }}">
+                            <input type="hidden" name="master_id" value="{{ master.id }}">
+                            <input type="hidden" name="date" value="{{ selected_date }}">
+                            <input type="hidden" name="time" value="{{ selected_time }}">
 							<div class="serviceFinally__form_block">
 								<div class="serviceFinally__form_header fic">
 									<span class="serviceFinally__form_header__number">Запись №32985</span>

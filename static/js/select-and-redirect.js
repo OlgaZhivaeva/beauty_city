@@ -1,3 +1,12 @@
+// Настройка CSRF-токена для всех AJAX-запросов
+$.ajaxSetup({
+  beforeSend: function(xhr, settings) {
+    if (!(/^http:.*/.test(settings.url) || /^https:.*/.test(settings.url))) {
+      // Только для локальных запросов
+      xhr.setRequestHeader("X-CSRFToken", $('[name=csrfmiddlewaretoken]').val());
+    }
+  }
+});
 $(document).ready(function() {
   let selectedSalonId = null;  // Переменная для хранения id выбранного салона
   let selectedServiceId = null;  // Переменная для хранения id выбранной услуги
@@ -52,9 +61,10 @@ $(document).ready(function() {
 
     // Сохраняем выбранное время в hidden input
     $('input[name="selected_time"]').val(selectedTime);
-    $('input[name="salon_id"]').attr('value', selectedSalonId);
-    $('input[name="service_id"]').attr('value', selectedServiceId);
-    $('input[name="master_id"]').attr('value', selectedMasterId);
+
+//    $('input[name="salon_id"]').attr('value', selectedSalonId);
+//    $('input[name="service_id"]').attr('value', selectedServiceId);
+//    $('input[name="master_id"]').attr('value', selectedMasterId);
 
 
     // Отправляем выбранные значения на сервер
@@ -62,7 +72,7 @@ $(document).ready(function() {
       url: '/serviceFinally/', // URL для проверки и редиректа
       method: 'POST',
       data: {
-//        csrfmiddlewaretoken: $('[name=csrfmiddlewaretoken]').val(), // Передача CSRF-токена
+        csrfmiddlewaretoken: $('[name=csrfmiddlewaretoken]').val(), // Передача CSRF-токена
         salon_id: selectedSalonId,
         service_id: selectedServiceId,
         master_id: selectedMasterId,
