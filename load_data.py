@@ -12,17 +12,17 @@ salons = [
     {
         'title': 'BeautyCity Пушкинская',
         'address': 'ул. Пушкинская, д. 78А',
-        'photo': 'salon1.svg'
+        'photo': 'salons/salon1.svg'
     },
     {
         'title': 'BeautyCity Ленина',
         'address': 'ул. Ленина, д. 211',
-        'photo': 'salon2.svg'
+        'photo': 'salons/salon2.svg'
     },
     {
         'title': 'BeautyCity Красная',
         'address': 'ул. Красная, д. 10',
-        'photo': 'salon3.svg'
+        'photo': 'salons/salon3.svg'
     }
 ]
 
@@ -70,27 +70,27 @@ masters = [
     {
         'full_name': 'Анастасия Сергеева',
         'specialty': 'Парикмахер',
-        'photo': 'master2.svg'
+        'photo': 'masters/master2.svg'
     },
     {
         'full_name': 'Ева Колесова',
         'specialty': 'Визажист',
-        'photo': 'master3.svg'
+        'photo': 'masters/master3.svg'
     },
     {
         'full_name': 'Мария Суворова',
         'specialty': 'Стилист',
-        'photo': 'master4.svg'
+        'photo': 'masters/master4.svg'
     },
     {
         'full_name': 'Мария Максимова',
         'specialty': 'Стилист',
-        'photo': 'master5.svg'
+        'photo': 'masters/master5.svg'
     },
     {
         'full_name': 'Майя Соболева',
         'specialty': 'Визажист',
-        'photo': 'master6.svg'
+        'photo': 'masters/master6.svg'
     }
 ]
 
@@ -151,49 +151,49 @@ servicess = [
         'type': 'Услуги мастера маникюра',
         'price': 2000,
         'duration': 90,
-        'photo': 'service2.svg',
+        'photo': 'services/service2.svg',
     },
     {
         'title': 'Педикюр',
         'type': 'Услуги мастера маникюра',
         'price': 1000,
         'duration': 60,
-        'photo': 'service5.svg',
+        'photo': 'services/service5.svg',
     },
     {
         'title': 'Стрижка волос',
         'type': 'Услуги парикмахера',
         'price': 1500,
         'duration': 60,
-        'photo': 'service3.svg',
+        'photo': 'services/service3.svg',
     },
     {
         'title': 'Окрашивание волос',
         'type': 'Услуги парикмахера',
         'price': 5000,
         'duration': 240,
-        'photo': 'service6.svg',
+        'photo': 'services/service6.svg',
     },
     {
         'title': 'Дневной макияж',
         'type': 'Услуги визажиста',
         'price': 1400,
         'duration': 30,
-        'photo': 'service1.svg',
+        'photo': 'services/service1.svg',
     },
     {
         'title': 'Вечерний макияж',
         'type': 'Услуги визажиста',
         'price': 2000,
         'duration': 60,
-        'photo': 'service1.svg',
+        'photo': 'services/service1.svg',
     },
     {
         'title': 'Укладка волос',
         'type': 'Услуги стилиста',
         'price': 3000,
         'duration': 60,
-        'photo': 'service4.svg',
+        'photo': 'services/service4.svg',
     }
 ]
 
