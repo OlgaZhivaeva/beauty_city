@@ -65,7 +65,7 @@ masters = [
     {
         'full_name': 'Елизавета Лапина',
         'specialty': 'Мастер маникюра',
-        'photo': 'master1.svg'
+        'photo': 'masters/master1.svg'
     },
     {
         'full_name': 'Анастасия Сергеева',
