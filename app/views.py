@@ -113,6 +113,7 @@ def get_masters(request):
     for master in masters:
         response_data.append(
             {
+                "id": master.id,
                 "full_name": master.full_name,
                 "specialty": master.specialty,
                 "photo": master.photo.url,
