@@ -135,9 +135,9 @@ $(document).ready(function() {
 	  	e.preventDefault()
 	    this.classList.toggle("active");
 	    var panel = $(this).next()
-	    panel.hasClass('active') ?  
+	    panel.hasClass('active') ?
 	    	 panel.removeClass('active')
-	    	: 
+	    	:
 	    	 panel.addClass('active')
 	  });
 	}

@@ -47,49 +47,75 @@ def popup(request):
 
 
 # @csrf_exempt
-# def serviceFinally(request):
-#     context = {}
-#     if request.method =="POST":
-#         salon_id = request.POST.get("salon_id")
-#         print(salon_id)
-#         salon_id = request.POST.get('salon_id')
-#         service_id = request.POST.get('service_id')
-#         master_id = request.POST.get('master_id')
-#         # selected_date = request.POST.get('selected_date')
-#         # selected_time = request.POST.get('selected_time')
-#
-#         if not all([salon_id, service_id, master_id]):
-#             context['error'] = 'Не все данные переданы'
-#             return render(request, 'serviceFinally.html', context)
-#
-#         try:
-#             salon_id = int(salon_id)
-#             service_id = int(service_id)
-#             master_id = int(master_id)
-#
-#             salon = Salon.objects.get(id=salon_id)
-#             service = Service.objects.get(id=service_id)
-#             master = Master.objects.get(id=master_id)
-#
-#             context = {
-#                 'salon': salon,
-#                 'service': service,
-#                 'master': master,
-#                 'selected_date': '28.12.2024',
-#                 'selected_time': '10:00'
-#             }
-#
-#             return render(request, 'serviceFinally.html', context)
-#
-#         except Exception as e:
-#             context = {
-#                 'salon': 'САЛОН КРАСОТЫ',
-#                 'selected_date': '29.12.2024',
-#                 'selected_time': '11:00'
-#         }
-#
-#         return render(request, 'serviceFinally.html', context)
+def service_finally(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            salon_id = data.get('salon_id')
+            service_id = data.get('service_id')
+            master_id = data.get('master_id')
+            date = data.get('date')
+            time = data.get('time')
 
+            if not all([salon_id, service_id, master_id, date, time]):
+                return JsonResponse({'message': 'Не все параметры переданы'}, status=400)
+
+            try:
+                salon = Salon.objects.get(id=salon_id)
+                service = Service.objects.get(id=service_id)
+                master = Master.objects.get(id=master_id)
+            except Salon.DoesNotExist:
+                return JsonResponse({'message': 'Некоректные данные Salon matching query does not exist.'}, status=400)
+            except Service.DoesNotExist:
+                return JsonResponse({'message': 'Некоректные данные Service matching query does not exist.'},
+                                    status=400)
+            except Master.DoesNotExist:
+                return JsonResponse({'message': 'Некоректные данные Master matching query does not exist.'}, status=400)
+
+            request.session['salon_id'] = salon_id
+            request.session['service_id'] = service_id
+            request.session['master_id'] = master_id
+            request.session['date'] = date
+            request.session['time'] = time
+
+            print(f"Полученный salon_id: {salon_id}")
+            print(f"Полученный service_id: {service_id}")
+            print(f"Полученный master_id: {master_id}")
+            print(f"Полученная date: {date}")
+            print(f"Полученное time: {time}")
+
+            return HttpResponseRedirect('/service_finally')
+
+        except json.JSONDecodeError:
+            return JsonResponse({'message': 'Некорректный JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': 'Ошибка при обработке запроса' + str(e)}, status=400)
+    elif request.method == "GET":
+        salon_id = request.session.get('salon_id')
+        service_id = request.session.get('service_id')
+        master_id = request.session.get('master_id')
+        date_str = request.session.get('date')
+        time_str = request.session.get('time')
+
+        try:
+            salon = Salon.objects.get(id=salon_id)
+            service = Service.objects.get(id=service_id)
+            master = Master.objects.get(id=master_id)
+
+            context = {
+                'salon': salon,
+                'service': service,
+                'master': master,
+                'selected_date': date_str,
+                'selected_time': time_str,
+            }
+            return render(request, 'serviceFinally.html', context)
+        except (Salon.DoesNotExist, Service.DoesNotExist, Master.DoesNotExist) as e:
+            return JsonResponse({'message': 'Некоректные данные ' + str(e)}, status=400)
+        except Exception as e:
+            return JsonResponse({'message': 'Ошибка при обработке запроса' + str(e)}, status=400)
+    else:
+        return JsonResponse({'message': 'Неверный метод запроса'}, status=405)
 
 
 def manager(request):
@@ -261,66 +287,9 @@ class UserLogoutView(View):
         return redirect("index")
 
 
-@csrf_exempt
-def pre_appointment(request):
-    if request.method == "POST":
-        try:
-            data = json.loads(request.body)
-            salon_id = data.get('salon_id')
-            service_id = data.get('service_id')
-            master_id = data.get('master_id')
-            date = data.get('date')
-            time = data.get('time')
+def save_to_db():
+    pass
 
-            if not all([salon_id, service_id, master_id, date, time]):
-                return JsonResponse({'message': 'Не все параметры переданы'}, status=400)
-
-            try:
-                salon = Salon.objects.get(id=salon_id)
-                service = Service.objects.get(id=service_id)
-                master = Master.objects.get(id=master_id)
-            except (Salon.DoesNotExist, Service.DoesNotExist, Master.DoesNotExist):
-                 return JsonResponse({'message': 'Некоректные данные Salon matching query does not exist.'}, status=400)
-
-            # Сохраняем данные в базу
-            print(f"Полученный salon_id: {salon_id}")
-            print(f"Полученный service_id: {service_id}")
-            print(f"Полученный master_id: {master_id}")
-            print(f"Полученная date: {date}")
-            print(f"Полученное time: {time}")
-
-            return JsonResponse({'message': 'Данные успешно получены', 'redirect_url': '/'}, status=200)
-
-        except json.JSONDecodeError:
-            return JsonResponse({'message': 'Некорректный JSON'}, status=400)
-    else:
-        return JsonResponse({'message': 'Неверный метод запроса'}, status=405)
-
-
-def service_finally(request):
-    salon_id = request.GET.get('salon_id')
-    service_id = request.GET.get('service_id')
-    master_id = request.GET.get('master_id')
-    date_str = request.GET.get('date')
-    time_str = request.GET.get('time')
-
-    try:
-        salon = Salon.objects.get(id=salon_id)
-        service = Service.objects.get(id=service_id)
-        master = Master.objects.get(id=master_id)
-
-        context = {
-            'salon': salon,
-            'service': service,
-            'master': master,
-            'selected_date': date_str,
-            'selected_time': time_str,
-        }
-        return render(request, 'serviceFinally.html', context)
-
-    except (Salon.DoesNotExist, Service.DoesNotExist, Master.DoesNotExist) as e:
-        return JsonResponse({'message': 'Некоректные данные '+str(e)}, status=400)
-    return JsonResponse({'message': 'Invalid request'}, status=400)
 
 @csrf_exempt
 def create_appointment(request):
@@ -341,7 +310,7 @@ def create_appointment(request):
              date_obj = datetime.strptime(date_str, '%d.%m.%Y').date()
              time_obj = datetime.strptime(time_str, '%H:%M').time()
 
-             # Сохраняем данные в базу
+             save_to_db()
 
              return JsonResponse({'message': 'Запись успешно создана!'})
         except (Salon.DoesNotExist, Service.DoesNotExist, Master.DoesNotExist) as e:
@@ -350,3 +319,4 @@ def create_appointment(request):
            return JsonResponse({'message': 'Неверный формат даты или времени'}, status=400)
 
     return JsonResponse({'message': 'Invalid request'}, status=400)
+

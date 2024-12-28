@@ -12,7 +12,7 @@ urlpatterns = [
     path("notes/", views.notes, name="notes"),
     path("service/", views.service, name="service"),
     path("popup/", views.popup, name="popup"),
-    path("serviceFinally/", views.service_finally, name="serviceFinally"),
+    path("service_finally/", views.service_finally, name="service_finally"),
     path("get_masters/", views.get_masters, name="get_masters"),
     path(
         "register/",
@@ -21,6 +21,6 @@ urlpatterns = [
     ),
     path("login/", views.UserLoginView.as_view(), name="user_login"),
     path("logout/", views.UserLogoutView.as_view(), name="user_logout"),
-    path('pre_appointment/', views.pre_appointment, name='pre_appointment'),
+    # path('pre_appointment/', views.pre_appointment, name='pre_appointment'),
     path('create_appointment/', views.create_appointment, name='create_appointment'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
