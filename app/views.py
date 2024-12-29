@@ -14,15 +14,25 @@ from django.urls import reverse
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
-from app.models import Master, MasterDaySchedule, Salon, Service, ServiceType
+from app.models import Master, MasterDaySchedule, Salon, Service, ServiceType, Feedback, Order
 
 
 def index(request):
-    context = {}
+    masters = Master.objects.all()
+    services = Service.objects.all()
+    salons = Salon.objects.all()
+    feedbacks = Feedback.objects.all()
+    context = {
+        'salons': salons,
+        'services': services,
+        'masters': masters,
+        'feedbacks':feedbacks
+    }
     return render(request, "index.html", context)
 
 
 def notes(request):
+    
     context = {}
     return render(request, "notes.html", context)
 
@@ -325,4 +335,3 @@ def create_appointment(request):
            return JsonResponse({'message': 'Неверный формат даты или времени'}, status=400)
 
     return JsonResponse({'message': 'Invalid request'}, status=400)
-
