@@ -11,8 +11,8 @@
 					<div class="col-md-2">
 						<div class="accaunt__left">
 							<div class="accaunt__ava fic">
-								<img src="{% static 'img/avatars/1.svg' %}" alt="avatar" class="accaunt__ava_img">
-								<span class="accaunt__ava_name">Алиса И.</span>
+								<img src="{% static 'img/acc.svg' %}" alt="avatar" class="accaunt__ava_img">
+								<span class="accaunt__ava_name">{{ client.full_name }}</span>
 							</div>
 							<div class="accaunt__settings fic">
 								<a href="#" class="accaunt__settings_intro">Изменить профиль</a>
@@ -26,7 +26,7 @@
 											<div class="accaunt__menu_block fic">
 												<img src="{% static 'img/icons/list.svg' %}" alt="icon" class="accaunt__menu_icon">
 												<span class="accaunt__menu_item__link_intro">Мои записи</span>
-											</div>	
+											</div>
 										</a>
 									</li>
 									<li class="accaunt__menu_item">
@@ -34,7 +34,7 @@
 											<div class="accaunt__menu_block fic">
 												<img src="{% static 'img/icons/settings.svg' %}" alt="icon" class="accaunt__menu_icon">
 												<span class="accaunt__menu_item__link_intro">Настройки</span>
-											</div>	
+											</div>
 										</a>
 									</li>
 									<li class="accaunt__menu_item">
@@ -42,7 +42,7 @@
 											<div class="accaunt__menu_block fic">
 												<img src="{% static 'img/icons/tex.svg' %}" alt="icon" class="accaunt__menu_icon">
 												<span class="accaunt__menu_item__link_intro">Тех. поддержка</span>
-											</div>	
+											</div>
 										</a>
 									</li>
 									<li class="accaunt__menu_item">
@@ -50,7 +50,7 @@
 											<div class="accaunt__menu_block fic">
 												<img src="{% static 'img/icons/pay.svg' %}" alt="icon" class="accaunt__menu_icon">
 												<span class="accaunt__menu_item__link_intro">Платежи</span>
-											</div>	
+											</div>
 										</a>
 									</li>
 								</ul>
@@ -67,15 +67,15 @@
 								<div class="notes__pay_title">Оплата услуг</div>
 								<div class="notes__pay_info">Вы можете оплатить услуги прямо сейчас онлайн или расплатиться  в салоне</div>
 							</div>
-							
-							
+
+
 							<div class="notes__pay_block">
 								<div class="notes__pay_intro">Сумма оплаты</div>
 								<div class="notes__pay_sum">3 900 руб</div>
 								<button class="notes__pay_btn">Оплатить онлайн</button>
 							</div>
 						</div>
-						<div class="notes__content notes__content_upcoming">	
+						<div class="notes__content notes__content_upcoming">
 							<div class="notes__main_title">ПРЕДСТОЯЩИЕ</div>
 							<div class="notes__main_block">
 								<img src="{% static 'img/services/service3.svg' %}" alt="service1" class="notes__main_block__img">
@@ -161,7 +161,7 @@
 							</div>
 						</div>
 
-						<div class="notes__content notes__content_history">	
+						<div class="notes__content notes__content_history">
 							<div class="notes__main_title">ПРОШЕДШИЕ</div>
 							<div class="notes__main_block">
 								<img src="{% static 'img/services/service1.svg' %}" alt="service1" class="notes__main_block__img">

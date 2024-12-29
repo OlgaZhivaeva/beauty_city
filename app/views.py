@@ -6,6 +6,7 @@ import phonenumbers as ph
 import requests
 from django.contrib import messages
 from django.contrib.auth import get_user_model, login, logout
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -291,16 +292,19 @@ def save_to_db():
     pass
 
 
+@login_required
 @csrf_exempt
 def create_appointment(request):
+    context = {}
     if request.method == 'POST':
         salon_id = request.POST.get('salon_id')
         service_id = request.POST.get('service_id')
         master_id = request.POST.get('master_id')
         date_str = request.POST.get('date')
         time_str = request.POST.get('time')
-        client_name = request.POST.get('fname')
-        client_phone = request.POST.get('tel')
+        full_name = request.POST.get('fname')
+        phone_number = request.POST.get('tel')
+        question = request.POST.get('contactsTextarea')
 
         try:
              salon = Salon.objects.get(id=salon_id)
@@ -310,9 +314,11 @@ def create_appointment(request):
              date_obj = datetime.strptime(date_str, '%d.%m.%Y').date()
              time_obj = datetime.strptime(time_str, '%H:%M').time()
 
-             save_to_db()
+             # Сюда встасляем сохранение в базу данных
+             print(f'{salon}, {service}, {master}, {date_obj}, {time_obj}')
+             print(f'{full_name}, {phone_number}, {question}')
 
-             return JsonResponse({'message': 'Запись успешно создана!'})
+             return render(request, 'notes.html', context)
         except (Salon.DoesNotExist, Service.DoesNotExist, Master.DoesNotExist) as e:
            return JsonResponse({'message': 'Некоректные данные '+str(e)}, status=400)
         except ValueError as e:
