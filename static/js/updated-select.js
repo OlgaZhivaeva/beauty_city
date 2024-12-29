@@ -6,6 +6,7 @@ $(document).ready(function() {
   let selectedTime = null;
 
   // Обработчик события клика по кнопкам выбора салона
+//  $('#salon-panel').on('click','.accordion__block_salon',function() {
   $('#salon-panel .accordion__block_salon').click(function () {
     selectedSalonId = $(this).data('id');
     console.log('Салон:', selectedSalonId );
@@ -13,9 +14,11 @@ $(document).ready(function() {
   });
 
   // Обработчик события клика по услугам
+//  $('#master-panel').on('click', '.accordion__block_salon', function() {
   $('.service__services .accordion__block_item').click(function () {
     selectedServiceId = $(this).data('id'); // Извлекаем id услуги
     console.log('Услуга:', selectedServiceId);
+    $('#select-master-btn').prop('disabled', false); // Активируем кнопку выбора мастера
     if (!selectedSalonId || !selectedServiceId) return;
 
     $.ajax({
@@ -140,74 +143,3 @@ $(document).ready(function() {
             });
      });
   })
-
-
-//  // Инициализация datepicker
-//    $("#datepickerHere").datepicker({
-//    dateFormat: "yy-mm-dd", // Формат даты, можно изменить
-//    onSelect: function(dateText, inst) {
-//      $("#selected_date").val(dateText);
-//      console.log('Дата:', selectedDate);
-//      console.log('Время:', selectedTime);
-//    }
-//  });
-//
-    // Обработчик события клика по времени
-//    $('.time__elems_btn').click(function (e) {
-//        e.preventDefault()
-//        selectedTime = $(this).data('time');
-//        console.log('Время:', selectedTime);
-//        $('.time__elems_btn').removeClass('active')
-//        $(this).addClass('active')
-//    });
-//    // Обработчик клика на кнопки времени
-//    $('.time__elems_btn').on('click', function() {
-//        var selectedTime = $(this).data('time'); // Получаем время из атрибута data-time
-//        var selectedDate = $('#selected_date').val(); // Получаем дату из скрытого поля
-//        console.log('Дата:', selectedDate);
-//        console.log('Время:', selectedTime);
-//    });
-//   // Инициализация datepicker
-//   $("#datepickerHere").datepicker({
-//     dateFormat: "yy-mm-dd", // Формат даты, можно изменить
-//     onSelect: function(dateText, inst) {
-//      $("#selected_date").val(dateText);
-//       console.log('Дата:', selectedDate);
-//       console.log('Время:', selectedTime);
-//      }
-//   });
-//
-//  $('#datepickerHere').datepicker({
-//     dateFormat: 'dd.mm.yy',
-//     regional: "ru",
-//     minDate: 0,
-//     maxDate: "+1m",
-//     firstDay: 1,
-//     changeMonth: true,
-//     changeYear: true,
-//     onSelect: function (fd, date) {
-//         selectedDate = fd;
-//         console.log('Дата:', selectedDate);
-//        }
-//  });
-
-//  $('#datepickerHere').click(function (e) {
-//    e.preventDefault()
-//      selectedDate = formattedDate;
-//      $('#selected_date').val(selectedDate);
-//      console.log('Дата:', selectedDate);
-//    },
-//  });
-
-//    // Инициализация Datepicker
-//    const datepicker = new AirDatepicker('#datepickerHere', {
-//        onSelect: function onSelect({formattedDate}) {
-//            selectedDate = formattedDate;
-//            $('#selected_date').val(selectedDate);
-//            console.log('Дата:', selectedDate);
-//            // Создание и отправка пользовательского события
-//            const dateSelectedEvent = new CustomEvent('dateSelected', { detail: { formattedDate: formattedDate } });
-//            window.dispatchEvent(dateSelectedEvent);
-//        },
-//        minDate: new Date()
-//      });
