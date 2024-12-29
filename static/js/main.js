@@ -148,8 +148,8 @@ $(document).ready(function() {
 
 		thisName = $(this).find('> .accordion__block_intro').text()
 		thisAddress = $(this).find('> .accordion__block_address').text()
-		
-		
+
+
 		if(thisName === 'BeautyCity Пушкинская') {
 			$('.service__masters > .panel').html(`
 				<div class="accordion__block fic">
@@ -199,13 +199,13 @@ $(document).ready(function() {
 							  	<div class="accordion__block_master">Анастасия Сергеева</div>
 						  	</div>
 						  	<div class="accordion__block_prof">Визажист</div>
-						  </div>	
+						  </div>
 			`)
 			// $('.service__masters div[data-masters="Pushkinskaya"]').addClass('vib')
 		}
 		console.log(thisName)
 		if(thisName === 'BeautyCity Ленина') {
-			
+
 			$('.service__masters > .panel').html(`
 				<div class="accordion__block fic">
 						  	<div class="accordion__block_elems fic">
@@ -308,7 +308,7 @@ $(document).ready(function() {
 						  	<div class="accordion__block_prof">Визажист</div>
 						  </div>
 			`)
-			
+
 		}
 
 		$(this).parent().parent().find('> button.active').addClass('selected').text(thisName + '  ' +thisAddress)
