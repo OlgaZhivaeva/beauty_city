@@ -317,38 +317,38 @@ def create_appointment(request):
         question = request.POST.get('contactsTextarea')
 
         try:
-             salon = Salon.objects.get(id=salon_id)
-             service = Service.objects.get(id=service_id)
-             master = Master.objects.get(id=master_id)
+            salon = Salon.objects.get(id=salon_id)
+            service = Service.objects.get(id=service_id)
+            master = Master.objects.get(id=master_id)
 
-             date_obj = datetime.strptime(date_str, '%d.%m.%Y').date()
-             time_obj = datetime.strptime(time_str, '%H:%M').time()
-             client = request.user
+            date_obj = datetime.strptime(date_str, '%d.%m.%Y').date()
+            time_obj = datetime.strptime(time_str, '%H:%M').time()
+            client = request.user
 
-             # Сюда встасляем сохранение в базу данных
-             # save_service_data_to_bd()
+            # Сюда встасляем сохранение в базу данных
+            # save_service_data_to_bd()
 
-             invoice = Invoice.objects.create(
-                 client=client,
-                 status='not_paid'
-             )
-             Order.objects.get_or_create(
-                 status='accepted',
-                 date=date_obj,
-                 salon=salon,
-                 client=client,
-                 master=master,
-                 service=service,
-                 start_at=time_obj,
-                 invoice=invoice
-             )
+            invoice = Invoice.objects.create(
+                client=client,
+                status='not_paid'
+            )
+            Order.objects.get_or_create(
+                status='accepted',
+                date=date_obj,
+                salon=salon,
+                client=client,
+                master=master,
+                service=service,
+                start_at=time_obj,
+                invoice=invoice
+            )
 
 
-             print(request.user)
-             print(f'{salon}, {service}, {master}, {date_obj}, {time_obj}')
-             print(f'{full_name}, {phone_number}, {question}')
+            print(request.user)
+            print(f'{salon}, {service}, {master}, {date_obj}, {time_obj}')
+            print(f'{full_name}, {phone_number}, {question}')
 
-             return render(request, 'notes.html', context)
+            return render(request, 'notes.html', context)
         except (Salon.DoesNotExist, Service.DoesNotExist, Master.DoesNotExist) as e:
            return JsonResponse({'message': 'Некоректные данные '+str(e)}, status=400)
         except ValueError as e:
