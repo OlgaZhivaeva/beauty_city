@@ -14,8 +14,8 @@ from django.urls import reverse
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
-from app.models import Master, MasterDaySchedule, Salon, Service, ServiceType, Feedback, Order
-
+from app.models import Master, MasterDaySchedule, Salon, Service, ServiceType, Feedback, Order, Invoice, ClientUser
+from get_data import save_service_data_to_bd
 
 def index(request):
     masters = Master.objects.all()
@@ -323,8 +323,28 @@ def create_appointment(request):
 
              date_obj = datetime.strptime(date_str, '%d.%m.%Y').date()
              time_obj = datetime.strptime(time_str, '%H:%M').time()
+             client = request.user
 
              # Сюда встасляем сохранение в базу данных
+             # save_service_data_to_bd()
+
+             invoice = Invoice.objects.create(
+                 client=client,
+                 status='not_paid'
+             )
+             Order.objects.get_or_create(
+                 status='accepted',
+                 date=date_obj,
+                 salon=salon,
+                 client=client,
+                 master=master,
+                 service=service,
+                 start_at=time_obj,
+                 invoice=invoice
+             )
+
+
+             print(request.user)
              print(f'{salon}, {service}, {master}, {date_obj}, {time_obj}')
              print(f'{full_name}, {phone_number}, {question}')
 

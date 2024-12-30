@@ -207,7 +207,7 @@ class Order(models.Model):
     )
     start_at = models.TimeField("Время начала")
     invoice = models.OneToOneField(
-        Invoice, on_delete=models.PROTECT, verbose_name="Счет"
+        Invoice, on_delete=models.CASCADE, verbose_name="Счет"
     )
 
     class Meta:
