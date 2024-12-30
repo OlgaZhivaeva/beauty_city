@@ -120,8 +120,10 @@
 										<div class="notes__footer fic">
 											<a href="#" class="notes__footer_link rewiewPopupOpen">Оставить отзыв</a>
 											<a href="#" class="notes__footer_link tipsPopupOpen">Чаевые</a>
-											<button class="notes__footer_btn payPopupOpen">Оплатить</button>
-											<div class="notes__main_pay unPaid">НЕОПЛАЧЕНО</div>
+											{% if new_order.invoice.status == "not_paid" and new_order.status != "discard" %}
+											    <button class="notes__footer_btn payPopupOpen">Оплатить</button>
+											    <div class="notes__main_pay unPaid">НЕОПЛАЧЕНО</div>
+											{% endif %}
 										</div>
 									</div>
 								</div>

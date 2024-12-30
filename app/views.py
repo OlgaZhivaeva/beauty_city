@@ -35,13 +35,13 @@ def index(request):
 
 def notes(request):
     client = request.user
-    new_orders = Order.objects.filter(date__gte=localdate(), client=client)
-    past_orders = Order.objects.filter(date__lt=localdate(), client=client)
-    new_orders_pay_sum = new_orders.aggregate(pay_sum=Sum('service__price'))
-    pay_sum = new_orders_pay_sum.get('pay_sum')
-    print(pay_sum)
+    new_orders = Order.objects.filter(date__gte=localdate(), client=client).order_by('-date')
+    past_orders = Order.objects.filter(date__lt=localdate(), client=client).order_by('-date')
+    new_orders_pay_sum = new_orders.filter(invoice__status='not_paid', status__in=['accepted', 'ended']).aggregate(pay_sum=Sum('service__price'))
+    pay_summ = new_orders_pay_sum.get('pay_sum')
+    print(pay_summ)
     context = {
-        'pay_sum': pay_sum,
+        'pay_sum': pay_summ,
         'new_orders': new_orders,
         'past_orders': past_orders
     }
