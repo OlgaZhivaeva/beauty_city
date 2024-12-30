@@ -8,9 +8,11 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model, login, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Sum
 from django.http import JsonResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.timezone import localdate
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 
@@ -26,14 +28,24 @@ def index(request):
         'salons': salons,
         'services': services,
         'masters': masters,
-        'feedbacks':feedbacks
+        'feedbacks': feedbacks
     }
     return render(request, "index.html", context)
 
 
 def notes(request):
-    
-    context = {}
+    client = request.user
+    new_orders = Order.objects.filter(date__gte=localdate(), client=client)
+    past_orders = Order.objects.filter(date__lt=localdate(), client=client)
+    new_orders_pay_sum = new_orders.aggregate(pay_sum=Sum('service__price'))
+    pay_sum = new_orders_pay_sum.get('pay_sum')
+    print(pay_sum)
+    context = {
+        'pay_sum': pay_sum,
+        'new_orders': new_orders,
+        'past_orders': past_orders
+    }
+
     return render(request, "notes.html", context)
 
 
@@ -48,7 +60,7 @@ def service(request):
         'masters': masters,
         'service_types': service_types
     }
-    return render(request, 'service.html', context)
+    return render(request, "service.html", context)
 
 
 
@@ -88,12 +100,6 @@ def service_finally(request):
             request.session['master_id'] = master_id
             request.session['date'] = date
             request.session['time'] = time
-
-            print(f"Полученный salon_id: {salon_id}")
-            print(f"Полученный service_id: {service_id}")
-            print(f"Полученный master_id: {master_id}")
-            print(f"Полученная date: {date}")
-            print(f"Полученное time: {time}")
 
             return HttpResponseRedirect('/service_finally')
 
@@ -343,12 +349,8 @@ def create_appointment(request):
                 invoice=invoice
             )
 
-
-            print(request.user)
-            print(f'{salon}, {service}, {master}, {date_obj}, {time_obj}')
-            print(f'{full_name}, {phone_number}, {question}')
-
-            return render(request, 'notes.html', context)
+            # return render(request, 'notes.html', context)
+            return HttpResponseRedirect('/notes')
         except (Salon.DoesNotExist, Service.DoesNotExist, Master.DoesNotExist) as e:
            return JsonResponse({'message': 'Некоректные данные '+str(e)}, status=400)
         except ValueError as e:
