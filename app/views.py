@@ -39,7 +39,6 @@ def notes(request):
     past_orders = Order.objects.filter(date__lt=localdate(), client=client).order_by('-date')
     new_orders_pay_sum = new_orders.filter(invoice__status='not_paid', status__in=['accepted', 'ended']).aggregate(pay_sum=Sum('service__price'))
     pay_summ = new_orders_pay_sum.get('pay_sum')
-    print(pay_summ)
     context = {
         'pay_sum': pay_summ,
         'new_orders': new_orders,
@@ -357,3 +356,16 @@ def create_appointment(request):
            return JsonResponse({'message': 'Неверный формат даты или времени'}, status=400)
 
     return JsonResponse({'message': 'Invalid request'}, status=400)
+
+def get_masters_by_id(request):
+    master_id = request.GET.get('master_id')
+    if master_id:
+        master = Master.objects.get(pk=master_id)
+        master_info = {
+            'id': master.id,
+            'full_name': master.full_name,
+            'specialty': master.specialty,
+            'photo': master.photo.url if master.photo else None
+        }
+        return JsonResponse({'master': master_info})
+    return JsonResponse({'master': []})

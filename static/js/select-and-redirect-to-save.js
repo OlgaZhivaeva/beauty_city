@@ -16,6 +16,7 @@ $(document).ready(function() {
   $('.service__services .accordion__block_item').click(function () {
     selectedServiceId = $(this).data('id'); // Извлекаем id услуги
     console.log('Услуга:', selectedServiceId);
+    $('#select-master-btn').prop('disabled', false); // Активируем кнопку выбора мастера
     if (!selectedSalonId || !selectedServiceId) return;
 
     $.ajax({
@@ -55,7 +56,6 @@ $(document).ready(function() {
   }
 
 
-
     // Инициализация Datepicker
   const datepicker = new AirDatepicker('#datepickerHere', {
     onSelect: function onSelect({formattedDate}) {
@@ -67,7 +67,6 @@ $(document).ready(function() {
   });
 
 
-
     // Обработчик события клика по времени
   $('.time__elems_btn').click(function (e) {
     e.preventDefault()
@@ -75,7 +74,6 @@ $(document).ready(function() {
       console.log('Время:', selectedTime);
       $('.time__elems_btn').removeClass('active')
       $(this).addClass('active')
-
   });
 
     // Обработчик отправки формы
@@ -138,5 +136,5 @@ $(document).ready(function() {
                   alert( "Произошла ошибка: " +  textStatus +  "  " + errorThrown)
               }
             });
-     });
-  })
+    });
+});

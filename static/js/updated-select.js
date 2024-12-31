@@ -141,5 +141,5 @@ $(document).ready(function() {
                   alert( "Произошла ошибка: " +  textStatus +  "  " + errorThrown)
               }
             });
-     });
-  })
+    });
+});
