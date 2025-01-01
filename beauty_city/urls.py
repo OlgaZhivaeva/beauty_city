@@ -21,6 +21,6 @@ urlpatterns = [
     ),
     path("login/", views.UserLoginView.as_view(), name="user_login"),
     path("logout/", views.UserLogoutView.as_view(), name="user_logout"),
-    # path('pre_appointment/', views.pre_appointment, name='pre_appointment'),
     path('create_appointment/', views.create_appointment, name='create_appointment'),
+    path('get_available_slots/', views.get_available_slots, name='get_available_slots'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

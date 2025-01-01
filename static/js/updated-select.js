@@ -6,7 +6,6 @@ $(document).ready(function() {
   let selectedTime = null;
 
   // Обработчик события клика по кнопкам выбора салона
-//  $('#salon-panel').on('click','.accordion__block_salon',function() {
   $('#salon-panel .accordion__block_salon').click(function () {
     selectedSalonId = $(this).data('id');
     console.log('Салон:', selectedSalonId );
@@ -14,7 +13,6 @@ $(document).ready(function() {
   });
 
   // Обработчик события клика по услугам
-//  $('#master-panel').on('click', '.accordion__block_salon', function() {
   $('.service__services .accordion__block_item').click(function () {
     selectedServiceId = $(this).data('id'); // Извлекаем id услуги
     console.log('Услуга:', selectedServiceId);
@@ -58,28 +56,65 @@ $(document).ready(function() {
   }
 
 
-
     // Инициализация Datepicker
   const datepicker = new AirDatepicker('#datepickerHere', {
     onSelect: function onSelect({formattedDate}) {
       selectedDate = formattedDate;
       $('#selected_date').val(selectedDate);
       console.log('Дата:', selectedDate);
+      if(selectedMasterId) {
+        updateTimeSlots(selectedMasterId, selectedDate); // Обновляем слоты времени при выборе даты
+      }
     },
     minDate: new Date()
   });
 
 
+   // Функция для обновления слотов времени при выборе даты
+    function updateTimeSlots(selectedMasterId, selectedDate) {
+        $.ajax({
+            url: '/get_available_slots/',
+            method: 'GET',
+            data: {
+                master_id: selectedMasterId,
+                date: selectedDate
+            },
+            success: function (response) {
+                updateTimeSlotsPanel(response.slots);
+                time_slots = response.slots;
+            }
+        });
+    }
 
-    // Обработчик события клика по времени
-  $('.time__elems_btn').click(function (e) {
-    e.preventDefault()
-      selectedTime = $(this).data('time');
-      console.log('Время:', selectedTime);
-      $('.time__elems_btn').removeClass('active')
-      $(this).addClass('active')
+    // Функция обновления панели слотов
+    function updateTimeSlotsPanel(slots) {
+        let content = '';
+        for (const timeGroup in slots) {
+            const timeList = slots[timeGroup];
+            content += `
+              <div class="time__items">
+                 <div class="time__elems_intro">${timeGroup}</div>
+                  <div class="time__elems_elem fic">
+          `;
+            for (const time of timeList)
+                content += `<button data-time="${time}" class="time__elems_btn">${time}</button>`;
 
-  });
+            content += `
+             </div>
+         </div>
+        `;
+        }
+        $('#time-slots').html(content);
+    }
+
+      // Делигирование события клика по времени
+    $('#time-slots').on('click', '.time__elems_btn', function (e) {
+      e.preventDefault()
+        selectedTime = $(this).data('time');
+        console.log('Время:', selectedTime);
+        $('.time__elems_btn').removeClass('active')
+        $(this).addClass('active')
+    });
 
     // Обработчик отправки формы
     $('.time__btns_next').on('click', function(event) {

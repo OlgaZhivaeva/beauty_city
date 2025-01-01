@@ -50,11 +50,17 @@ def notes(request):
 
 @csrf_exempt
 def service(request):
+    slots = {
+        'Утро': ['10:00', '10:30'],
+        'День': ['12:00', '12:30', '12:30'],
+        'Вечер': ['15:00', '16:30', '17:00', '18:30', '19:00']
+    }
 
     masters = Master.objects.all()
     service_types = ServiceType.objects.all()
     salons = Salon.objects.all()
     context = {
+        'slots': slots,
         'salons': salons,
         'masters': masters,
         'service_types': service_types
@@ -357,15 +363,74 @@ def create_appointment(request):
 
     return JsonResponse({'message': 'Invalid request'}, status=400)
 
-def get_masters_by_id(request):
-    master_id = request.GET.get('master_id')
-    if master_id:
-        master = Master.objects.get(pk=master_id)
-        master_info = {
-            'id': master.id,
-            'full_name': master.full_name,
-            'specialty': master.specialty,
-            'photo': master.photo.url if master.photo else None
-        }
-        return JsonResponse({'master': master_info})
-    return JsonResponse({'master': []})
+# def get_available_slots(request):
+#     slots = {
+#         'Утро': ['10:00', '10:30'],
+#         'День': ['12:00', '12:30', '15:00', '16:30'],
+#         'Вечер': ['17:00', '18:30', '19:00']
+#     }
+#     selected_master_id = request.GET.get('master_id')
+#     selected_date_str = request.GET.get('date')
+#     available_slots = slots.copy()
+#     if selected_master_id and selected_date_str:
+#         selected_master = Master.objects.get(pk=selected_master_id)
+#         selected_date = datetime.strptime(selected_date_str, '%d.%m.%Y').date()
+#
+#         # Получаем занятые слоты как объекты времени
+#         booked_slots_time_objs = Order.objects.filter(
+#             master=selected_master,
+#             date=selected_date
+#         ).values_list('start_at', flat=True)
+#
+#         # Форматируем время в Python
+#         booked_slots = [time_obj.strftime('%H:%M') for time_obj in booked_slots_time_objs]
+#
+#         # Фильтруем доступные слоты
+#         available_slots = {
+#             time_group: [time for time in time_list if time not in booked_slots]
+#             for time_group, time_list in slots.items()
+#         }
+#
+#     return JsonResponse({'slots': available_slots})
+
+from datetime import datetime
+
+from django.http import JsonResponse
+
+from app.models import Master, Order
+
+
+def get_available_slots(request):
+    slots = {
+        'Утро': ['10:00', '10:30'],
+        'День': ['12:00', '12:30', '15:00', '16:30'],
+        'Вечер': ['17:00', '18:30', '19:00']
+    }
+    selected_master_id = request.GET.get('master_id')
+    selected_date_str = request.GET.get('date')
+    available_slots = {}  # Инициализируем как пустой словарь
+    if selected_master_id and selected_date_str:
+        try:
+            selected_master = Master.objects.get(pk=selected_master_id)
+            selected_date = datetime.strptime(selected_date_str, '%d.%m.%Y').date()
+
+            # Получаем занятые слоты как объекты времени
+            booked_slots_time_objs = Order.objects.filter(
+                master=selected_master,
+                date=selected_date
+            ).values_list('start_at', flat=True)
+
+            # Форматируем время в Python
+            booked_slots = [time_obj.strftime('%H:%M') for time_obj in booked_slots_time_objs]
+
+            # Фильтруем доступные слоты
+            available_slots = {
+                time_group: [time for time in time_list if time not in booked_slots]
+                for time_group, time_list in slots.items()
+            }
+        except Master.DoesNotExist:
+            return JsonResponse({'slots': {}})  # Возвращаем пустой объект при ошибке
+        except ValueError:
+           return JsonResponse({'slots': {}}) # Возвращаем пустой объект при ошибке
+
+    return JsonResponse({'slots': available_slots})

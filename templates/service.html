@@ -124,7 +124,6 @@
 				    <!-- Выбор услуги -->
 				    <div class="service__form_block service__services">
 						<button id="select-service-btn" class="accordion" disabled>(Выберите услугу)</button>
-<!--						<button id="select-service-btn" class="accordion" >(Выберите услугу)</button>-->
 						<div id="service-panel" class="panel">
 							{% for service_type in service_types %}
 								<button data-type="{{ service_type.id }}" class="accordion">{{ service_type }}</button>
@@ -144,7 +143,6 @@
 					<!-- Выбор мастера -->
 					<div class="service__form_block service__masters">
 					    <button id="select-master-btn" class="accordion" disabled>(Выберите мастера)</button>
-<!--						<button id="select-master-btn" class="accordion" >(Выберите мастера)</button>-->
 						   <div id="master-panel" class="panel"></div>
                     </div>
 				</div>
@@ -160,41 +158,31 @@
 								<div id="datepickerHere"></div>
 								<input type="hidden" name="selected_date" id="selected_date">
 							</div>
-							<div class="col-md-8">
-								<div class="time__elems">
-									<div class="time__items">
-										<div class="time__elems_intro">Утро</div>
-										<div class="time__elems_elem fic">
-											<button data-time="10:00" class="time__elems_btn">10:00</button>
-											<button data-time="10:30" class="time__elems_btn">10:30</button>
-										</div>
-									</div>
-									<div class="time__items">
-										<div class="time__elems_intro">День</div>
-										<div class="time__elems_elem fic">
-											<button data-time="12:00" class="time__elems_btn">12:00</button>
-											<button data-time="12:30" class="time__elems_btn">12:30</button>
-											<button data-time="15:00" class="time__elems_btn">15:00</button>
-											<button data-time="16:30" class="time__elems_btn">16:30</button>
-										</div>
-									</div>
-									<div class="time__items">
-										<div class="time__elems_intro">Вечер</div>
-										<div class="time__elems_elem fic">
-											<button data-time="17:00" class="time__elems_btn">17:00</button>
-											<button data-time="18:30" class="time__elems_btn">18:30</button>
-											<button data-time="19:00" class="time__elems_btn">19:00</button>
-										</div>
+
+                            <div id="time-slots">
+								<div class="col-md-8">
+									<div class="time__elems">
+										{% for time_group, time_list in slots.items %}
+											<div class="time__items">
+												<div class="time__elems_intro">{{ time_group }}</div>
+												<div class="time__elems_elem fic">
+													{% for time in time_list %}
+														<button data-time="{{ time }}" class="time__elems_btn">{{ time }}</button>
+													{% endfor %}
+												</div>
+											</div>
+										{% endfor %}
 									</div>
 								</div>
 							</div>
+
 						</div>
 					</div>
 					<div class="time__btns">
 						<div class="row">
 							<div class="col-md-12">
 								 <button type="button" class="time__btns_next">Далее</button>
-								<a href="{% url 'index' %}"><button class="time__btns_home">На главную</button></a>
+								<a href="{% url 'index' %}" class="time__btns_home">На главную</a>
 							</div>
 						</div>
 					</div>
@@ -275,7 +263,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js" integrity="sha512-XtmMtDEcNz2j7ekrtHvOVR4iwwaD6o/FUJe6+Zq+HgcCsk3kj4uSQQR8weQ2QVj1o0Pk6PwYLohm206ZzNfubg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 	<script src="{% static 'js/main.js' %}"></script>
-	<script src="{% static 'js/select-and-redirect-to-save.js' %}"></script>
-<!--    <script src="{% static 'js/updated-select.js' %}"></script>-->
+<!--	<script src="{% static 'js/select-and-redirect-to-save.js' %}"></script>-->
+    <script src="{% static 'js/updated-select.js' %}"></script>
 </body>
 </html>
