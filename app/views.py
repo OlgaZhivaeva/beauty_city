@@ -38,9 +38,9 @@ def notes(request):
     new_orders = Order.objects.filter(date__gte=localdate(), client=client).order_by('-date')
     past_orders = Order.objects.filter(date__lt=localdate(), client=client).order_by('-date')
     new_orders_pay_sum = new_orders.filter(invoice__status='not_paid', status__in=['accepted', 'ended']).aggregate(pay_sum=Sum('service__price'))
-    pay_summ = new_orders_pay_sum.get('pay_sum')
+    pay_sum = new_orders_pay_sum.get('pay_sum')
     context = {
-        'pay_sum': pay_summ,
+        'pay_sum': pay_sum,
         'new_orders': new_orders,
         'past_orders': past_orders
     }
